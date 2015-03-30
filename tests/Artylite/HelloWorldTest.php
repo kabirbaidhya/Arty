@@ -1,6 +1,4 @@
-<?php
-
-namespace Gckabir\MyPackage;
+<?php namespace Gckabir\Artylite;
 
 class HelloWorldTest extends TestCase
 {

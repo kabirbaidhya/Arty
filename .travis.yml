@@ -2,7 +2,6 @@ language: php
 php:
   # Test it in major version and also in hhvm
 
-  - 5.3
   - 5.4
   - 5.5
   - 5.6

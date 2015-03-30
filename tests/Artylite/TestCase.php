@@ -1,6 +1,4 @@
-<?php
-
-namespace Gckabir\MyPackage;
+<?php namespace Gckabir\Artylite;
 
 class TestCase extends \PHPUnit_Framework_TestCase
 {

@@ -1,23 +1,34 @@
 {
-    "name": "gckabir/boilerplate-package",
-    "description": "A very simple boilerplate code for composer based package in PHP.",
+    "name": "gckabir/artylite",
+    "description": "A light weight version of Laravel's commandline tool just for database migrations.",
     "authors": [
         {
-            "name": "Kabir Baidhya",
+            "name": "Kabir",
             "email": "kabeer182010@gmail.com"
         }
     ],
     "license": "MIT",
     
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "symfony/console": "~2.6",
+        "illuminate/database": "~5.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.5.*"
+        "phpunit/phpunit": "4.5.*",
+        "symfony/var-dumper": "~2.6"
     },
     "autoload": {
         "psr-4": {
-            "Gckabir\\MyPackage\\": "src/"
+            "Gckabir\\Arty\\": "src/"
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+             "composer dump-autoload --optimize"
+        ],
+        "post-update-cmd": [
+             "composer dump-autoload --optimize"
+        ]
     }
 }

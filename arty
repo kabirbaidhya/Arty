@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+require __DIR__.'/vendor/autoload.php';
+
+use Gckabir\Arty\Arty;
+
+(new Arty([
+	'database'	=> [
+		'driver'    => 'mysql',
+		'host'      => '127.0.0.1',
+		'database'  => 'arty',
+		'username'  => 'root',
+		'password'  => 'test',
+		'charset'   => 'utf8',
+		'collation' => 'utf8_unicode_ci',
+		'prefix'    => '',
+		'strict'    => false,
+	]
+]))->run();
+
