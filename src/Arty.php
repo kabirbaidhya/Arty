@@ -1,65 +1,51 @@
 <?php namespace Gckabir\Arty;
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class Arty extends Application
 {
-    const NAME = "Artylite";
+    const NAME = "Arty";
     const VERSION = '0.1.0';
-    const COMMANDS_BASE = 'Gckabir\Arty\Commands';
 
-    protected $container;
+    /**
+     * The Ioc container instance
+     *
+     * @var \Gckabir\Arty\IocContainer
+     */
+    protected $app;
 
     public function __construct(array $config = array())
     {
         parent::__construct(static::NAME, static::VERSION);
 
-        $this->registerCommands();
-        $this->setupContainer();
+        $this->setupIoC();
         $this->configure($config);
         $this->bootServices();
-    }
-
-    protected function getCommands()
-    {
-        return [
-            'TestCommand',
-            'MigrateCommand',
-            'Migrate\InstallCommand',
-            'Migrate\RefreshCommand',
-            'Migrate\MakeCommand',
-            'Migrate\ResetCommand',
-            'Migrate\RollbackCommand',
-            'Migrate\StatusCommand',
-        ];
     }
 
     protected function getServiceProviders()
     {
         return [
+            'InjectorServiceProvider',
+            'FilesystemServiceProvider',
+            'ComposerServiceProvider',
             'DatabaseServiceProvider',
+            'MigrationServiceProvider',
         ];
     }
 
-    protected function setupContainer()
+    protected function setupIoC()
     {
-        $this->container = IocContainer::initialize();
+        $this->app = IocContainer::initialize();
+        $this->app->instance('arty', $this);
     }
 
     public function configure(array $config = array())
     {
         $configuration = new Configuration();
 
-        $this->container->instance('config', $configuration->all($config));
-    }
-
-    protected function registerCommands()
-    {
-        $commands = $this->getCommands();
-        foreach ($commands as $command) {
-            $commandClass = __NAMESPACE__.'\\Commands\\'.$command;
-            $this->add(new $commandClass());
-        }
+        $this->app->instance('config', $configuration->all($config));
     }
 
     protected function bootServices()
@@ -68,7 +54,16 @@ class Arty extends Application
 
         foreach ($providers as $provider) {
             $serviceProvider = __NAMESPACE__.'\\Providers\\'.$provider;
-            (new $serviceProvider($this->container))->register();
+            (new $serviceProvider($this->app))->register();
         }
+    }
+
+    public function add(SymfonyCommand $command)
+    {
+        if ($command instanceof Command) {
+            $command->setContainer($this->app);
+        }
+
+        return parent::add($command);
     }
 }

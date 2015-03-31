@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true" bootstrap="./tests/bootstrap.php">
     <testsuites>
-        <testsuite name="Artylite Test Suite">
-            <directory>./tests/Artylite</directory>
+        <testsuite name="Arty Test Suite">
+            <directory>./tests/Arty</directory>
         </testsuite>
     </testsuites>
 </phpunit>

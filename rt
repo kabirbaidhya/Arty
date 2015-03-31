@@ -16,5 +16,6 @@ use Gckabir\Arty\Arty;
 		'prefix'    => '',
 		'strict'    => false,
 	]
+	
 ]))->run();
 

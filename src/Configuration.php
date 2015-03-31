@@ -14,11 +14,24 @@ class Configuration
             'prefix'    => '',
             'strict'    => false,
         ],
-        'bootEloquent'    => false,
+
+        'path'      => '',
+
+        'migrations'    => [
+            'directory'    => 'migrations',
+            'table'    => 'migrations',
+        ],
+
+        'eloquent'  => [
+            'boot'    => false,
+        ],
     ];
 
     public function all(array $override = array())
     {
+        $script = $_SERVER['SCRIPT_FILENAME'];
+        $this->params['path']   = dirname(realpath($script));
+
         return ($override + $this->params);
     }
 }

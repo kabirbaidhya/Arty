@@ -17,7 +17,7 @@ class DatabaseServiceProvider extends AbstractServiceProvider
             $capsule->setAsGlobal();
 
             // Setup the Eloquent ORM...
-            if ($config['bootEloquent'] == true) {
+            if ($config['eloquent']['boot'] == true) {
                 $capsule->bootEloquent();
             }
 

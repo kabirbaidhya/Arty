@@ -28,6 +28,13 @@ class Command extends SymfonyCommand
     protected $name;
 
     /**
+     * The Ioc container instance
+     *
+     * @var \Gckabir\Arty\IocContainer
+     */
+    protected $app;
+
+    /**
      * The console command description.
      *
      * @var string
@@ -84,6 +91,22 @@ class Command extends SymfonyCommand
         $this->output = $output;
 
         return parent::run($input, $output);
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     * @return mixed
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        if (method_exists($this, 'fire')) {
+            return $this->fire();
+        }
+
+        throw new \LogicException("The fire() has not been implemented in ".get_class($this));
     }
 
     /**
@@ -158,5 +181,10 @@ class Command extends SymfonyCommand
         foreach ($this->getOptions() as $options) {
             call_user_func_array(array($this, 'addOption'), $options);
         }
+    }
+
+    public function setContainer(IocContainer $container)
+    {
+        $this->app = $container;
     }
 }
