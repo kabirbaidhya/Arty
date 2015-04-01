@@ -17,7 +17,6 @@ class InstallCommand extends Command
     protected $repository;
 
     /**
-     * Inject dependencies
      * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface $repository
      * @return void
      */
@@ -29,22 +28,22 @@ class InstallCommand extends Command
 
     protected function fire()
     {
-        // $this->repository->setSource($this->input->getOption('database'));
+        $this->repository->setSource($this->input->getOption('database'));
 
         $this->repository->createRepository();
 
         $this->info("Migration table created successfully.");
     }
 
-    // /**
-    //  * Get the console command options.
-    //  *
-    //  * @return array
-    //  */
-    // protected function getOptions()
-    // {
-    //     return array(
-    //         array('database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'),
-    //     );
-    // }
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return array(
+            array('database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'),
+        );
+    }
 }

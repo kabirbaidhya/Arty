@@ -1,5 +1,6 @@
 <?php namespace Gckabir\Arty;
 
+use Illuminate\Support\Facades\Facade;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
@@ -20,6 +21,7 @@ class Arty extends Application
         parent::__construct(static::NAME, static::VERSION);
 
         $this->setupIoC();
+        $this->setupFacades();
         $this->configure($config);
         $this->bootServices();
     }
@@ -41,6 +43,11 @@ class Arty extends Application
         $this->app->instance('arty', $this);
     }
 
+    protected function setupFacades()
+    {
+        Facade::setFacadeApplication($this->app);
+    }
+
     public function configure(array $config = array())
     {
         $configuration = new Configuration();
@@ -60,8 +67,10 @@ class Arty extends Application
 
     public function add(SymfonyCommand $command)
     {
+        // Do it only for Arty's commands
         if ($command instanceof Command) {
             $command->setContainer($this->app);
+            $this->app->instance($command->getKey(), $command);
         }
 
         return parent::add($command);

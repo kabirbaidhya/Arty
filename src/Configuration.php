@@ -3,6 +3,8 @@
 class Configuration
 {
     protected $params = [
+        'environment'   => 'production',
+
         'database'    => [
             'driver'    => 'mysql',
             'host'      => '127.0.0.1',

@@ -1,8 +1,12 @@
 <?php namespace Gckabir\Arty;
 
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class Command extends SymfonyCommand
 {
@@ -186,5 +190,118 @@ class Command extends SymfonyCommand
     public function setContainer(IocContainer $container)
     {
         $this->app = $container;
+    }
+
+    /**
+     * Get the value of a command argument.
+     *
+     * @param  string       $key
+     * @return string|array
+     */
+    public function argument($key = null)
+    {
+        if (is_null($key)) {
+            return $this->input->getArguments();
+        }
+
+        return $this->input->getArgument($key);
+    }
+
+    /**
+     * Get the value of a command option.
+     *
+     * @param  string       $key
+     * @return string|array
+     */
+    public function option($key = null)
+    {
+        if (is_null($key)) {
+            return $this->input->getOptions();
+        }
+
+        return $this->input->getOption($key);
+    }
+
+    /**
+     * Confirm a question with the user.
+     *
+     * @param  string $question
+     * @param  bool   $default
+     * @return bool
+     */
+    public function confirm($question, $default = false)
+    {
+        $helper = $this->getHelperSet()->get('question');
+
+        $question = new ConfirmationQuestion("<question>{$question}</question> ", $default);
+
+        return $helper->ask($this->input, $this->output, $question);
+    }
+
+    /**
+     * Prompt the user for input.
+     *
+     * @param  string $question
+     * @param  string $default
+     * @return string
+     */
+    public function ask($question, $default = null)
+    {
+        $helper = $this->getHelperSet()->get('question');
+
+        $question = new Question("<question>$question</question> ", $default);
+
+        return $helper->ask($this->input, $this->output, $question);
+    }
+
+    /**
+     * Call another console command.
+     *
+     * @param  string $command
+     * @param  array  $arguments
+     * @return int
+     */
+    public function call($commandName, array $arguments = array())
+    {
+        $key = static::getKeyOf($commandName);
+        $command = $this->app->make($key);
+
+        $arguments['command'] = $commandName;
+
+        return $command->run(new ArrayInput($arguments), $this->output);
+    }
+
+    /**
+     * Call another console command silently.
+     *
+     * @param  string $command
+     * @param  array  $arguments
+     * @return int
+     */
+    public function callSilent($commandName, array $arguments = array())
+    {
+        $key = static::getKeyOf($commandName);
+        $command = $this->app->make($key);
+
+        $arguments['command'] = $commandName;
+
+        return $command->run(new ArrayInput($arguments), new NullOutput());
+    }
+
+    /**
+     * Returns Command key to be stored in the Ioc Container
+     * @param  string $command
+     * @return string
+     */
+    public static function getKeyOf($commandName)
+    {
+        $key = 'command.'.str_replace(':', '.', $commandName);
+
+        return $key;
+    }
+
+    public function getKey()
+    {
+        return static::getKeyOf($this->name);
     }
 }

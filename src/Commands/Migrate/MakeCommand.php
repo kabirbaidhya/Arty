@@ -30,7 +30,7 @@ class MakeCommand extends Command
      * Create a new migration install command instance.
      *
      * @param  \Illuminate\Database\Migrations\MigrationCreator $creator
-     * @param  \Illuminate\Foundation\Composer                  $composer
+     * @param  \Gckabir\Arty\Composer                           $composer
      * @return void
      */
     public function __construct(MigrationCreator $creator, Composer $composer)
@@ -106,9 +106,9 @@ class MakeCommand extends Command
     protected function getOptions()
     {
         return array(
-            array('create', null, InputOption::VALUE_OPTIONAL, 'The table to be created.'),
+            ['create', null, InputOption::VALUE_OPTIONAL, 'The table to be created.'],
 
-            array('table', null, InputOption::VALUE_OPTIONAL, 'The table to migrate.'),
+            ['table', null, InputOption::VALUE_OPTIONAL, 'The table to migrate.'],
         );
     }
 }

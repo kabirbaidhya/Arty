@@ -62,6 +62,18 @@ class MigrationServiceProvider extends AbstractServiceProvider
         });
     }
 
+    /**
+     * Register the migration creator.
+     *
+     * @return void
+     */
+    protected function registerCreator()
+    {
+        $this->app->singleton('migration.creator', function ($app) {
+            return new MigrationCreator($app['files']);
+        });
+    }
+
     protected function getCommands()
     {
         return [
@@ -82,13 +94,11 @@ class MigrationServiceProvider extends AbstractServiceProvider
      */
     protected function registerCommands()
     {
-        // $injector = $this->app->make('injector');
-        $application = $this->app->make('arty');
+        $application = $this->app['arty'];
         $commands = $this->getCommands();
 
         foreach ($commands as $command) {
-            $key = $this->{'register'.$command}();
-            $commandInstance = $this->app->make($key);
+            $commandInstance = $this->{'instantiate'.$command}();
             $application->add($commandInstance);
         }
     }
@@ -98,14 +108,11 @@ class MigrationServiceProvider extends AbstractServiceProvider
      *
      * @return string
      */
-    protected function registerMigrateCommand()
+    protected function instantiateMigrateCommand()
     {
-        $key = 'command.migrate';
-        $this->app->singleton($key, function ($app) {
-            return new MigrateCommand($app['migrator']);
-        });
+        $command = new MigrateCommand($this->app['migrator']);
 
-        return $key;
+        return $command;
     }
 
     /**
@@ -113,14 +120,11 @@ class MigrationServiceProvider extends AbstractServiceProvider
      *
      * @return string
      */
-    protected function registerRollbackCommand()
+    protected function instantiateRollbackCommand()
     {
-        $key = 'command.migrate.rollback';
-        $this->app->singleton($key, function ($app) {
-            return new RollbackCommand($app['migrator']);
-        });
+        $command =  new RollbackCommand($this->app['migrator']);
 
-        return $key;
+        return $command;
     }
 
     /**
@@ -128,14 +132,11 @@ class MigrationServiceProvider extends AbstractServiceProvider
      *
      * @return string
      */
-    protected function registerResetCommand()
+    protected function instantiateResetCommand()
     {
-        $key = 'command.migrate.reset';
-        $this->app->singleton($key, function ($app) {
-            return new ResetCommand($app['migrator']);
-        });
+        $command =  new ResetCommand($this->app['migrator']);
 
-        return $key;
+        return $command;
     }
 
     /**
@@ -143,14 +144,11 @@ class MigrationServiceProvider extends AbstractServiceProvider
      *
      * @return string
      */
-    protected function registerRefreshCommand()
+    protected function instantiateRefreshCommand()
     {
-        $key = 'command.migrate.refresh';
-        $this->app->singleton($key, function () {
-            return new RefreshCommand();
-        });
+        $command =  new RefreshCommand();
 
-        return $key;
+        return $command;
     }
 
     /**
@@ -158,14 +156,11 @@ class MigrationServiceProvider extends AbstractServiceProvider
      *
      * @return string
      */
-    protected function registerStatusCommand()
+    protected function instantiateStatusCommand()
     {
-        $key = 'command.migrate.status';
-        $this->app->singleton($key, function ($app) {
-            return new StatusCommand($app['migrator']);
-        });
+        $command =  new StatusCommand($this->app['migrator']);
 
-        return $key;
+        return $command;
     }
 
     /**
@@ -173,14 +168,11 @@ class MigrationServiceProvider extends AbstractServiceProvider
      *
      * @return string
      */
-    protected function registerInstallCommand()
+    protected function instantiateInstallCommand()
     {
-        $key = 'command.migrate.install';
-        $this->app->singleton($key, function ($app) {
-            return new InstallCommand($app['migration.repository']);
-        });
+        $command =  new InstallCommand($this->app['migration.repository']);
 
-        return $key;
+        return $command;
     }
 
     /**
@@ -188,34 +180,18 @@ class MigrationServiceProvider extends AbstractServiceProvider
      *
      * @return string
      */
-    protected function registerMakeCommand()
+    protected function instantiateMakeCommand()
     {
-        $key = 'command.migrate.make';
+        // Once we have the migration creator registered, we will create the command
+        // and inject the creator. The creator is responsible for the actual file
+        // creation of the migrations, and may be extended by these developers.
         $this->registerCreator();
 
-        $this->app->singleton($key, function ($app) {
-            // Once we have the migration creator registered, we will create the command
-            // and inject the creator. The creator is responsible for the actual file
-            // creation of the migrations, and may be extended by these developers.
-            $creator = $app['migration.creator'];
+        $creator = $this->app['migration.creator'];
+        $composer = $this->app['composer'];
 
-            $composer = $app['composer'];
+        $command =  new MakeCommand($creator, $composer);
 
-            return new MakeCommand($creator, $composer);
-        });
-
-        return $key;
-    }
-
-    /**
-     * Register the migration creator.
-     *
-     * @return void
-     */
-    protected function registerCreator()
-    {
-        $this->app->singleton('migration.creator', function ($app) {
-            return new MigrationCreator($app['files']);
-        });
+        return $command;
     }
 }

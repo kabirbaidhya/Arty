@@ -12,7 +12,7 @@ class DatabaseServiceProvider extends AbstractServiceProvider
             $config = $this->app['config'];
 
             $capsule = new CapsuleManager();
-            $capsule->addConnection($config['database']);
+            $capsule->addConnection($config['database'], 'default');
 
             $capsule->setAsGlobal();
 
