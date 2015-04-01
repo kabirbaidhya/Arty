@@ -1,11 +1,15 @@
 <?php namespace Gckabir\Arty;
 
+use RuntimeException;
 use Illuminate\Support\Facades\Facade;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Gckabir\Arty\Traits\ConfigureTrait;
 
 class Arty extends Application
 {
+    use ConfigureTrait;
+
     const NAME = "Arty";
     const VERSION = '0.1.0';
 
@@ -15,6 +19,7 @@ class Arty extends Application
      * @var \Gckabir\Arty\IocContainer
      */
     protected $app;
+    protected $configured = false;
 
     public function __construct(array $config = array())
     {
@@ -22,8 +27,10 @@ class Arty extends Application
 
         $this->setupIoC();
         $this->setupFacades();
-        $this->configure($config);
-        $this->bootServices();
+
+        if (!empty($config)) {
+            $this->configure($config);
+        }
     }
 
     protected function getServiceProviders()
@@ -48,13 +55,6 @@ class Arty extends Application
         Facade::setFacadeApplication($this->app);
     }
 
-    public function configure(array $config = array())
-    {
-        $configuration = new Configuration();
-
-        $this->app->instance('config', $configuration->all($config));
-    }
-
     protected function bootServices()
     {
         $providers = $this->getServiceProviders();
@@ -74,5 +74,13 @@ class Arty extends Application
         }
 
         return parent::add($command);
+    }
+
+    public function run()
+    {
+        if (!$this->configured) {
+            throw new RuntimeException("Arty has not been configured yet.");
+        }
+        parent::run();
     }
 }

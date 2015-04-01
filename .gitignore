@@ -1,3 +1,5 @@
+.arty.yml
 composer.phar
 composer.lock
 vendor/
+
