@@ -7,17 +7,24 @@ class DatabaseServiceProvider extends AbstractServiceProvider
 {
     public function register()
     {
-        $this->app->singleton('laravel.db', function () {
+        $this->app->singleton('laravel.db', function ($app) {
 
-            $config = $this->app['config'];
+            $config = $app['config'];
+            $default = $config['database.default'];
+            $capsule = new CapsuleManager($app);
+            $config['database.default'] = $default;
 
-            $capsule = new CapsuleManager();
-            $capsule->addConnection($config['database'], 'default');
+            $connections = $config['database.connections'];
+
+            foreach ($connections as $key => $connectionConfig) {
+                $name = $key;
+                $capsule->addConnection($connectionConfig, $name);
+            }
 
             $capsule->setAsGlobal();
 
             // Setup the Eloquent ORM...
-            if ($config['eloquent']['boot'] == true) {
+            if ($config['eloquent.boot'] == true) {
                 $capsule->bootEloquent();
             }
 

@@ -1,10 +1,17 @@
 database:
-    driver: mysql
-    host: 127.0.0.1
-    database: test
-    username: test
-    password: test
-    charset: utf8
-    collation: utf8_unicode_ci
-    prefix:  ''
-    strict: false
+  default: mysql
+  connections: 
+    mysql:
+      driver: mysql
+      host: 127.0.0.1
+      database: arty
+      username: root
+      password: test
+      charset: utf8
+      collation: utf8_unicode_ci
+      prefix:  ''
+      strict: false
+    sqlite:
+      driver: sqlite
+      database: database.sqlite
+      prefix: ''

@@ -1,5 +1,6 @@
 <?php namespace Gckabir\Arty\Providers;
 
+use Gckabir\Arty\MigrationCreator;
 use Gckabir\Arty\AbstractServiceProvider;
 use Gckabir\Arty\Commands\MigrateCommand;
 use Gckabir\Arty\Commands\Migrate\InstallCommand;
@@ -9,7 +10,6 @@ use Gckabir\Arty\Commands\Migrate\ResetCommand;
 use Gckabir\Arty\Commands\Migrate\RollbackCommand;
 use Gckabir\Arty\Commands\Migrate\StatusCommand;
 use Illuminate\Database\Migrations\Migrator;
-use Illuminate\Database\Migrations\MigrationCreator;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository;
 
 class MigrationServiceProvider extends AbstractServiceProvider
@@ -39,7 +39,7 @@ class MigrationServiceProvider extends AbstractServiceProvider
     protected function registerRepository()
     {
         $this->app->singleton('migration.repository', function ($app) {
-            $table = $app['config']['migrations']['table'];
+            $table = $app['config']['migrations.table'];
 
             return new DatabaseMigrationRepository($app['laravel.db'], $table);
         });
@@ -110,9 +110,7 @@ class MigrationServiceProvider extends AbstractServiceProvider
      */
     protected function instantiateMigrateCommand()
     {
-        $command = new MigrateCommand($this->app['migrator']);
-
-        return $command;
+        return new MigrateCommand($this->app['migrator']);
     }
 
     /**
@@ -122,9 +120,7 @@ class MigrationServiceProvider extends AbstractServiceProvider
      */
     protected function instantiateRollbackCommand()
     {
-        $command =  new RollbackCommand($this->app['migrator']);
-
-        return $command;
+        return new RollbackCommand($this->app['migrator']);
     }
 
     /**
@@ -134,9 +130,7 @@ class MigrationServiceProvider extends AbstractServiceProvider
      */
     protected function instantiateResetCommand()
     {
-        $command =  new ResetCommand($this->app['migrator']);
-
-        return $command;
+        return new ResetCommand($this->app['migrator']);
     }
 
     /**
@@ -146,21 +140,7 @@ class MigrationServiceProvider extends AbstractServiceProvider
      */
     protected function instantiateRefreshCommand()
     {
-        $command =  new RefreshCommand();
-
-        return $command;
-    }
-
-    /**
-     * Register the "status" migration command.
-     *
-     * @return string
-     */
-    protected function instantiateStatusCommand()
-    {
-        $command =  new StatusCommand($this->app['migrator']);
-
-        return $command;
+        return new RefreshCommand();
     }
 
     /**
@@ -170,9 +150,17 @@ class MigrationServiceProvider extends AbstractServiceProvider
      */
     protected function instantiateInstallCommand()
     {
-        $command =  new InstallCommand($this->app['migration.repository']);
+        return new InstallCommand($this->app['migration.repository']);
+    }
 
-        return $command;
+    /**
+     * Register the "status" migration command.
+     *
+     * @return string
+     */
+    protected function instantiateStatusCommand()
+    {
+        return new StatusCommand($this->app['migrator']);
     }
 
     /**
@@ -190,8 +178,6 @@ class MigrationServiceProvider extends AbstractServiceProvider
         $creator = $this->app['migration.creator'];
         $composer = $this->app['composer'];
 
-        $command =  new MakeCommand($creator, $composer);
-
-        return $command;
+        return new MakeCommand($creator, $composer);
     }
 }

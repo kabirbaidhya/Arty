@@ -2,4 +2,6 @@
 composer.phar
 composer.lock
 vendor/
-
+database.sqlite
+migrations
+.idea

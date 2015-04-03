@@ -2,7 +2,7 @@
 
 use Gckabir\Arty\Command;
 use Gckabir\Arty\Composer;
-use Illuminate\Database\Migrations\MigrationCreator;
+use Gckabir\Arty\MigrationCreator;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Gckabir\Arty\Traits\MigrationTrait;
@@ -17,21 +17,19 @@ class MakeCommand extends Command
     /**
      * The migration creator instance.
      *
-     * @var \Illuminate\Database\Migrations\MigrationCreator
+     * @var \Gckabir\Arty\MigrationCreator
      */
     protected $creator;
 
     /**
-     * @var \Illuminate\Foundation\Composer
+     * @var \Gckabir\Arty\Composer
      */
     protected $composer;
 
     /**
-     * Create a new migration install command instance.
-     *
-     * @param  \Illuminate\Database\Migrations\MigrationCreator $creator
-     * @param  \Gckabir\Arty\Composer                           $composer
-     * @return void
+     * Create a new migration install command instance
+     * @param \Gckabir\Arty\MigrationCreator $creator
+     * @param \Gckabir\Arty\Composer $composer
      */
     public function __construct(MigrationCreator $creator, Composer $composer)
     {

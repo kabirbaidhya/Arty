@@ -6,6 +6,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Gckabir\Arty\Traits\ConfigureTrait;
 
+
 class Arty extends Application
 {
     use ConfigureTrait;

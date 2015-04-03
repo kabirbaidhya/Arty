@@ -2,38 +2,24 @@
 
 class Configuration
 {
-    protected $params = [
-        'environment'   => 'production',
-
-        'database'    => [
-            'driver'    => 'mysql',
-            'host'      => '127.0.0.1',
-            'database'  => '',
-            'username'  => '',
-            'password'  => '',
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => false,
-        ],
-
-        'path'      => '',
-
-        'migrations'    => [
-            'directory'    => 'migrations',
-            'table'    => 'migrations',
-        ],
-
-        'eloquent'  => [
-            'boot'    => false,
-        ],
-    ];
-
-    public function all(array $override = array())
+    protected function getDefaultConfig()
     {
-        $script = $_SERVER['SCRIPT_FILENAME'];
-        $this->params['path']   = dirname(realpath($script));
+        $default = require __DIR__.'/Misc/default.config.php';
 
-        return ($override + $this->params);
+        $script = $_SERVER['SCRIPT_FILENAME'];
+        $default['path']   = dirname(realpath($script));
+
+        return array_dot($default);
+    }
+
+    public function all(array $overridingConfig = array())
+    {
+        $overridingConfig = array_dot($overridingConfig);
+
+        $defaultConfig = $this->getDefaultConfig();
+
+        $config = ($overridingConfig + $defaultConfig);
+
+        return array_undot($config);
     }
 }

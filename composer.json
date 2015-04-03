@@ -20,6 +20,9 @@
         "symfony/var-dumper": "~2.6"
     },
     "autoload": {
+        "files": [
+            "src/Misc/helpers.php"
+        ],
         "psr-4": {
             "Gckabir\\Arty\\": "src/"
         }

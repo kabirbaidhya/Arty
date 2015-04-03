@@ -3,6 +3,7 @@
 use Gckabir\Arty\Configuration;
 use Symfony\Component\Yaml\Yaml;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Fluent;
 
 trait ConfigureTrait
 {
@@ -11,7 +12,9 @@ trait ConfigureTrait
         $configuration = new Configuration();
 
         $finalConfig = $configuration->all($config);
-        $this->app->instance('config', $finalConfig);
+
+        $finalConfig = array_dot_once($finalConfig);
+        $this->app->instance('config', new Fluent($finalConfig));
         $this->configured = true;
 
         // After configuration has been loaded other things can boot up
@@ -32,3 +35,4 @@ trait ConfigureTrait
         return $this;
     }
 }
+

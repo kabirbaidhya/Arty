@@ -11,10 +11,10 @@ trait MigrationTrait
      */
     protected function getMigrationPath()
     {
-        $config = $this->app->make('config');
-        $fs = $this->app->make('files');
+        $config = $this->app['config'];
+        $fs = $this->app['files'];
 
-        $migrationPath = $config['path'].'/'.$config['migrations']['directory'];
+        $migrationPath = $config['path'].'/'.$config['migrations.directory'];
 
         if (!$fs->isDirectory($migrationPath)) {
             $output = new ConsoleOutput();
