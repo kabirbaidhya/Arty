@@ -1,3 +1,4 @@
+environment: local
 database:
   default: mysql
   connections: 
