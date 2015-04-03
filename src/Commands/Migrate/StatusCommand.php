@@ -2,9 +2,12 @@
 
 use Illuminate\Database\Migrations\Migrator;
 use Gckabir\Arty\Command;
+use Gckabir\Arty\Traits\MigrationTrait;
 
 class StatusCommand extends Command
 {
+    use MigrationTrait;
+
     protected $name = 'migrate:status';
     protected $description = 'Show a list of migrations up/down';
 

@@ -1,5 +1,6 @@
 <?php namespace Gckabir\Arty;
 
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Question\Question;
@@ -193,6 +194,21 @@ class Command extends SymfonyCommand
     }
 
     /**
+     * Format input to textual table
+     *
+     * @param  array   $headers
+     * @param  array   $rows
+     * @param  string  $style
+     * @return void
+     */
+    public function table(array $headers, array $rows, $style = 'default')
+    {
+        $table = new Table($this->output);
+
+        $table->setHeaders($headers)->setRows($rows)->setStyle($style)->render();
+    }
+
+    /**
      * Get the value of a command argument.
      *
      * @param  string       $key
@@ -257,7 +273,7 @@ class Command extends SymfonyCommand
     /**
      * Call another console command.
      *
-     * @param  string $command
+     * @param  string $commandName
      * @param  array  $arguments
      * @return int
      */
@@ -274,7 +290,7 @@ class Command extends SymfonyCommand
     /**
      * Call another console command silently.
      *
-     * @param  string $command
+     * @param  string $commandName
      * @param  array  $arguments
      * @return int
      */
@@ -290,8 +306,9 @@ class Command extends SymfonyCommand
 
     /**
      * Returns Command key to be stored in the Ioc Container
-     * @param  string $command
+     * @param $commandName
      * @return string
+     * @internal param string $command
      */
     public static function getKeyOf($commandName)
     {
