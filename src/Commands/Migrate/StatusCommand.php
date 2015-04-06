@@ -1,12 +1,10 @@
 <?php namespace Gckabir\Arty\Commands\Migrate;
 
-use Illuminate\Database\Migrations\Migrator;
 use Gckabir\Arty\Command;
-use Gckabir\Arty\Traits\MigrationTrait;
+use Gckabir\Arty\Migrator;
 
 class StatusCommand extends Command
 {
-    use MigrationTrait;
 
     protected $name = 'migrate:status';
     protected $description = 'Show a list of migrations up/down';
@@ -14,14 +12,14 @@ class StatusCommand extends Command
     /**
      * The migrator instance.
      *
-     * @var \Illuminate\Database\Migrations\Migrator
+     * @var \Gckabir\Arty\Migrator
      */
     protected $migrator;
 
     /**
      * Create a new migration rollback command instance.
      *
-     * @param  \Illuminate\Database\Migrations\Migrator $migrator
+     * @param \Gckabir\Arty\Migrator $migrator
      */
     public function __construct(Migrator $migrator)
     {
@@ -37,8 +35,7 @@ class StatusCommand extends Command
      */
     public function fire()
     {
-        if ( ! $this->migrator->repositoryExists())
-        {
+        if (! $this->migrator->repositoryExists()) {
             return $this->error('No migrations found.');
         }
 
@@ -46,17 +43,13 @@ class StatusCommand extends Command
 
         $migrations = [];
 
-        foreach ($this->getAllMigrationFiles() as $migration)
-        {
+        foreach ($this->getAllMigrationFiles() as $migration) {
             $migrations[] = in_array($migration, $ran) ? ['<info>Y</info>', $migration] : ['<fg=red>N</fg=red>', $migration];
         }
 
-        if (count($migrations) > 0)
-        {
+        if (count($migrations) > 0) {
             $this->table(['Ran?', 'Migration'], $migrations);
-        }
-        else
-        {
+        } else {
             $this->error('No migrations found');
         }
     }
@@ -68,6 +61,6 @@ class StatusCommand extends Command
      */
     protected function getAllMigrationFiles()
     {
-        return $this->migrator->getMigrationFiles($this->getMigrationPath());
+        return $this->migrator->getMigrationFiles($this->migrator->getMigrationPath());
     }
 }

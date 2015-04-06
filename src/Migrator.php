@@ -61,7 +61,7 @@ class Migrator extends LaravelMigrator
         parent::run($path, $pretend);
     }
 
-    protected function getMigrationPath()
+    public function getMigrationPath()
     {
         $fs = $this->files;
         $config = $this->app['config'];
