@@ -1,21 +1,16 @@
 <?php namespace Gckabir\Arty\Traits;
 
-use Closure;
-
 trait ConfirmableTrait
 {
     /**
      * Confirm before proceeding with the action
      *
-     * @param  string        $warning
-     * @param  \Closure|null $callback
+     * @param  string $warning
      * @return bool
      */
-    public function confirmToProceed($warning = 'Application In Production!', Closure $callback = null)
+    public function confirmToProceed($warning = 'Application In Production!')
     {
-        $shouldConfirm = $callback ?: $this->getDefaultConfirmCallback();
-
-        if (call_user_func($shouldConfirm)) {
+        if ($this->shouldConfirm()) {
             if ($this->option('force')) {
                 return true;
             }
@@ -38,11 +33,11 @@ trait ConfirmableTrait
     }
 
     /**
-     * Get the default confirmation callback.
+     * Should it confirm or not?
      *
-     * @return \Closure
+     * @return bool
      */
-    protected function getDefaultConfirmCallback()
+    protected function shouldConfirm()
     {
         return function () { return $this->app['config']['environment'] == 'production'; };
     }

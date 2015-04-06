@@ -1,15 +1,14 @@
 <?php namespace Gckabir\Arty\Commands;
 
 use Gckabir\Arty\Command;
-use Gckabir\Arty\Traits\MigrationTrait;
+use Gckabir\Arty\Migrator;
 use Gckabir\Arty\Traits\ConfirmableTrait;
-use Illuminate\Database\Migrations\Migrator;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateCommand extends Command
 {
-    use ConfirmableTrait, MigrationTrait;
+    use ConfirmableTrait;
 
     /**
      * The console command name.
@@ -28,14 +27,14 @@ class MigrateCommand extends Command
     /**
      * The migrator instance.
      *
-     * @var \Illuminate\Database\Migrations\Migrator
+     * @var \Gckabir\Arty\Migrator
      */
     protected $migrator;
 
     /**
      * Create a new migration command instance.
      *
-     * @param  \Illuminate\Database\Migrations\Migrator $migrator
+     * @param \Gckabir\Arty\Migrator $migrator
      */
     public function __construct(Migrator $migrator)
     {
@@ -62,16 +61,7 @@ class MigrateCommand extends Command
         // a database for real, which is helpful for double checking migrations.
         $pretend = $this->input->getOption('pretend');
 
-        // Next, we will check to see if a path option has been defined. If it has
-        // we will use the path relative to the root of this installation folder
-        // so that migrations may be run for any path within the applications.
-        if (! is_null($path = $this->input->getOption('path'))) {
-            $path = $this->laravel['path.base'].'/'.$path;
-        } else {
-            $path = $this->getMigrationPath();
-        }
-
-        $this->migrator->run($path, $pretend);
+        $this->migrator->run($pretend);
 
         // Once the migrator has run we will grab the note output and send it out to
         // the console screen, since the migrator itself functions without having

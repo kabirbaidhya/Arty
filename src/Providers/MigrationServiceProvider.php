@@ -1,5 +1,6 @@
 <?php namespace Gckabir\Arty\Providers;
 
+use Gckabir\Arty\Migrator;
 use Gckabir\Arty\MigrationCreator;
 use Gckabir\Arty\AbstractServiceProvider;
 use Gckabir\Arty\Commands\MigrateCommand;
@@ -9,7 +10,6 @@ use Gckabir\Arty\Commands\Migrate\RefreshCommand;
 use Gckabir\Arty\Commands\Migrate\ResetCommand;
 use Gckabir\Arty\Commands\Migrate\RollbackCommand;
 use Gckabir\Arty\Commands\Migrate\StatusCommand;
-use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository;
 
 class MigrationServiceProvider extends AbstractServiceProvider
@@ -58,7 +58,7 @@ class MigrationServiceProvider extends AbstractServiceProvider
         $this->app->singleton('migrator', function ($app) {
             $repository = $app['migration.repository'];
 
-            return new Migrator($repository, $app['laravel.db'], $app['files']);
+            return new Migrator($repository, $app['laravel.db'], $app['files'], $app);
         });
     }
 
