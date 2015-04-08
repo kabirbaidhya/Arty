@@ -39,6 +39,6 @@ trait ConfirmableTrait
      */
     protected function shouldConfirm()
     {
-        return function () { return $this->app['config']['environment'] == 'production'; };
+        return $this->app['config']['environment'] == 'production';
     }
 }

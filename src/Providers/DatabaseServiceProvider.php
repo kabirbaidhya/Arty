@@ -16,8 +16,7 @@ class DatabaseServiceProvider extends ServiceProvider
 
             $connections = $config['database.connections'];
 
-            foreach ($connections as $key => $connectionConfig) {
-                $name = $key;
+            foreach ($connections as $name => $connectionConfig) {
                 $capsule->addConnection($connectionConfig, $name);
             }
 

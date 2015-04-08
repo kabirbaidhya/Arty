@@ -33,6 +33,7 @@ class Arty extends Application
             'FilesystemServiceProvider',
             'ComposerServiceProvider',
             'DatabaseServiceProvider',
+            'ConsoleServiceProvider',
             'MigrationServiceProvider',
         ];
     }
@@ -60,10 +61,15 @@ class Arty extends Application
         }
     }
 
+    protected function getDefaultCommands()
+    {
+        return [];
+    }
+
     public function add(SymfonyCommand $command)
     {
         // Do it only for Arty's commands
-        if ($command instanceof Command) {
+        if (method_exists($command, 'setContainer')) {
             $command->setContainer($this->app);
             $this->app->instance($command->getKey(), $command);
         }

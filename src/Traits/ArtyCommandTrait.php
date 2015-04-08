@@ -30,6 +30,6 @@ trait ArtyCommandTrait
             return $this->fire();
         }
 
-        throw new LogicException("The fire() has not been implemented in ".get_class($this));
+        parent::execute($input, $output);
     }
 }

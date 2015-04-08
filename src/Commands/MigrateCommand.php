@@ -1,46 +1,24 @@
 <?php namespace Gckabir\Arty\Commands;
 
-use Gckabir\Arty\Command;
-use Gckabir\Arty\Migrator;
+use Gckabir\Arty\Migrator as ArtyMigrator;
 use Gckabir\Arty\Traits\ConfirmableTrait;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Database\Console\Migrations\MigrateCommand as LaravelMigrateCommand;
+use Gckabir\Arty\Traits\ContainerAwareTrait;
+use Gckabir\Arty\Traits\ArtyCommandTrait;
 
-class MigrateCommand extends Command
+class MigrateCommand extends LaravelMigrateCommand
 {
+    use ContainerAwareTrait, ArtyCommandTrait;
     use ConfirmableTrait;
-
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'migrate';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Run the database migrations';
-
-    /**
-     * The migrator instance.
-     *
-     * @var \Gckabir\Arty\Migrator
-     */
-    protected $migrator;
 
     /**
      * Create a new migration command instance.
      *
      * @param \Gckabir\Arty\Migrator $migrator
      */
-    public function __construct(Migrator $migrator)
+    public function __construct(ArtyMigrator $migrator)
     {
-        parent::__construct();
-
-        $this->migrator = $migrator;
+        parent::__construct($migrator);
     }
 
     /**
@@ -76,41 +54,5 @@ class MigrateCommand extends Command
         if ($this->input->getOption('seed')) {
             $this->call('db:seed', ['--force' => true]);
         }
-    }
-
-    /**
-     * Prepare the migration database for running.
-     *
-     * @return void
-     */
-    protected function prepareDatabase()
-    {
-        $this->migrator->setConnection($this->input->getOption('database'));
-
-        if (! $this->migrator->repositoryExists()) {
-            $options = array('--database' => $this->input->getOption('database'));
-
-            $this->call('migrate:install', $options);
-        }
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return array(
-            array('database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'),
-
-            array('force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.'),
-
-            array('path', null, InputOption::VALUE_OPTIONAL, 'The path of migrations files to be executed.'),
-
-            array('pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'),
-
-            array('seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.'),
-        );
     }
 }

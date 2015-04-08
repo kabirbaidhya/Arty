@@ -3,6 +3,7 @@
 use Gckabir\Arty\Migrator;
 use Gckabir\Arty\MigrationCreator;
 use Gckabir\Arty\Commands\MigrateCommand;
+use Gckabir\Arty\Traits\CommandsProviderTrait;
 use Gckabir\Arty\Commands\Migrate\InstallCommand;
 use Gckabir\Arty\Commands\Migrate\MakeCommand;
 use Gckabir\Arty\Commands\Migrate\RefreshCommand;
@@ -14,6 +15,7 @@ use Illuminate\Database\Migrations\DatabaseMigrationRepository;
 
 class MigrationServiceProvider extends ServiceProvider
 {
+    use CommandsProviderTrait;
     /**
      * Register the service provider.
      *
@@ -29,6 +31,19 @@ class MigrationServiceProvider extends ServiceProvider
         $this->registerMigrator();
 
         $this->registerCommands();
+    }
+
+    protected function provideCommands()
+    {
+        return [
+            'MigrateCommand',
+            'InstallCommand',
+            'RefreshCommand',
+            'MakeCommand',
+            'ResetCommand',
+            'RollbackCommand',
+            'StatusCommand',
+        ];
     }
 
     /**
@@ -74,40 +89,12 @@ class MigrationServiceProvider extends ServiceProvider
         });
     }
 
-    protected function getCommands()
-    {
-        return [
-            'MigrateCommand',
-            'InstallCommand',
-            'RefreshCommand',
-            'MakeCommand',
-            'ResetCommand',
-            'RollbackCommand',
-            'StatusCommand',
-        ];
-    }
-
-    /*
-     * Register all of the migration commands.
-     *
-     * @return void
-     */
-    protected function registerCommands()
-    {
-        $application = $this->app['arty'];
-
-        foreach ($this->getCommands() as $command) {
-            $commandInstance = $this->{'instantiate'.$command}();
-            $application->add($commandInstance);
-        }
-    }
-
     /**
      * Register the "migrate" migration command.
      *
      * @return string
      */
-    protected function instantiateMigrateCommand()
+    protected function getMigrateCommand()
     {
         return new MigrateCommand($this->app['migrator']);
     }
@@ -117,7 +104,7 @@ class MigrationServiceProvider extends ServiceProvider
      *
      * @return string
      */
-    protected function instantiateRollbackCommand()
+    protected function getRollbackCommand()
     {
         return new RollbackCommand($this->app['migrator']);
     }
@@ -127,7 +114,7 @@ class MigrationServiceProvider extends ServiceProvider
      *
      * @return string
      */
-    protected function instantiateResetCommand()
+    protected function getResetCommand()
     {
         return new ResetCommand($this->app['migrator']);
     }
@@ -137,7 +124,7 @@ class MigrationServiceProvider extends ServiceProvider
      *
      * @return string
      */
-    protected function instantiateRefreshCommand()
+    protected function getRefreshCommand()
     {
         return new RefreshCommand();
     }
@@ -147,7 +134,7 @@ class MigrationServiceProvider extends ServiceProvider
      *
      * @return string
      */
-    protected function instantiateInstallCommand()
+    protected function getInstallCommand()
     {
         return new InstallCommand($this->app['migration.repository']);
     }
@@ -157,7 +144,7 @@ class MigrationServiceProvider extends ServiceProvider
      *
      * @return string
      */
-    protected function instantiateStatusCommand()
+    protected function getStatusCommand()
     {
         return new StatusCommand($this->app['migrator']);
     }
@@ -167,7 +154,7 @@ class MigrationServiceProvider extends ServiceProvider
      *
      * @return string
      */
-    protected function instantiateMakeCommand()
+    protected function getMakeCommand()
     {
         // Once we have the migration creator registered, we will create the command
         // and inject the creator. The creator is responsible for the actual file
