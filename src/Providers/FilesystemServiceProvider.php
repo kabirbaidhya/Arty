@@ -1,9 +1,9 @@
 <?php namespace Gckabir\Arty\Providers;
 
 use Illuminate\Filesystem\Filesystem;
-use Gckabir\Arty\AbstractServiceProvider;
+use Gckabir\Arty\AbstractServiceProvider as ServiceProvider;
 
-class FilesystemServiceProvider extends AbstractServiceProvider
+class FilesystemServiceProvider extends ServiceProvider
 {
     public function register()
     {

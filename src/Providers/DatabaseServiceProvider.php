@@ -1,9 +1,9 @@
 <?php namespace Gckabir\Arty\Providers;
 
-use Gckabir\Arty\AbstractServiceProvider;
 use Illuminate\Database\Capsule\Manager as CapsuleManager;
+use Gckabir\Arty\AbstractServiceProvider as ServiceProvider;
 
-class DatabaseServiceProvider extends AbstractServiceProvider
+class DatabaseServiceProvider extends ServiceProvider
 {
     public function register()
     {

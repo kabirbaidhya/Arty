@@ -2,7 +2,6 @@
 
 use Gckabir\Arty\Migrator;
 use Gckabir\Arty\MigrationCreator;
-use Gckabir\Arty\AbstractServiceProvider;
 use Gckabir\Arty\Commands\MigrateCommand;
 use Gckabir\Arty\Commands\Migrate\InstallCommand;
 use Gckabir\Arty\Commands\Migrate\MakeCommand;
@@ -10,9 +9,10 @@ use Gckabir\Arty\Commands\Migrate\RefreshCommand;
 use Gckabir\Arty\Commands\Migrate\ResetCommand;
 use Gckabir\Arty\Commands\Migrate\RollbackCommand;
 use Gckabir\Arty\Commands\Migrate\StatusCommand;
+use Gckabir\Arty\AbstractServiceProvider as ServiceProvider;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository;
 
-class MigrationServiceProvider extends AbstractServiceProvider
+class MigrationServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
@@ -95,9 +95,8 @@ class MigrationServiceProvider extends AbstractServiceProvider
     protected function registerCommands()
     {
         $application = $this->app['arty'];
-        $commands = $this->getCommands();
 
-        foreach ($commands as $command) {
+        foreach ($this->getCommands() as $command) {
             $commandInstance = $this->{'instantiate'.$command}();
             $application->add($commandInstance);
         }

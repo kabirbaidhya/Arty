@@ -2,25 +2,25 @@
 
 use Illuminate\Filesystem\Filesystem;
 use Gckabir\Arty\Traits\MigrationTrait;
+use Gckabir\Arty\Traits\ContainerAwareTrait;
+use Illuminate\Contracts\Container\Container as ContainerContract;
 use Illuminate\Database\Migrations\MigrationCreator as LaravelMigrationCreator;
 
 class MigrationCreator extends LaravelMigrationCreator
 {
-    use MigrationTrait;
-
-    protected $app;
+    use MigrationTrait, ContainerAwareTrait;
 
     /**
-     * Create a new migrator instance.
+     * Create a new migration creator instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem $fs
-     * @param  \Gckabir\Arty\IocContainer        $container
+     * @param  \Illuminate\Filesystem\Filesystem         $fs
+     * @param  \Illuminate\Contracts\Container\Container $container
      * @return void
      */
-    public function __construct(Filesystem $fs, IocContainer $container)
+    public function __construct(Filesystem $fs, ContainerContract $container)
     {
         parent::__construct($fs);
-        $this->app = $container;
+        $this->setContainer($container);
     }
 
     /**

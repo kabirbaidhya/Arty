@@ -1,33 +1,32 @@
 <?php namespace Gckabir\Arty;
 
 use Gckabir\Arty\Traits\MigrationTrait;
+use Gckabir\Arty\Traits\ContainerAwareTrait;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use Illuminate\Database\Migrations\Migrator as LaravelMigrator;
+use Illuminate\Contracts\Container\Container as ContainerContract;
 
 class Migrator extends LaravelMigrator
 {
-    use MigrationTrait;
-
-    protected $app;
+    use MigrationTrait, ContainerAwareTrait;
 
     /**
      * Create a new migrator instance.
      *
-     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface $repository
-     * @param  \Illuminate\Database\ConnectionResolverInterface             $resolver
-     * @param  \Illuminate\Filesystem\Filesystem                            $files
-     * @param  \Gckabir\Arty\IocContainer                                   $container
-     * @return void
+     * @param \Illuminate\Database\Migrations\MigrationRepositoryInterface $repository
+     * @param \Illuminate\Database\ConnectionResolverInterface             $resolver
+     * @param \Illuminate\Filesystem\Filesystem                            $files
+     * @param \Illuminate\Contracts\Container\Container                    $container
      */
     public function __construct(MigrationRepositoryInterface $repository,
                                 ConnectionResolverInterface $resolver,
                                 Filesystem $files,
-                                IocContainer $container
+                                ContainerContract $container
                                 ) {
         parent::__construct($repository, $resolver, $files);
-        $this->app = $container;
+        $this->setContainer($container);
     }
 
     /**

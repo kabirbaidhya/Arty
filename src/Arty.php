@@ -4,23 +4,15 @@ use RuntimeException;
 use Illuminate\Support\Facades\Facade;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
-use Gckabir\Arty\Traits\ConfigureTrait;
-
+use Gckabir\Arty\Traits\ConfigurationTrait;
+use Gckabir\Arty\Traits\ContainerAwareTrait;
 
 class Arty extends Application
 {
-    use ConfigureTrait;
+    use ConfigurationTrait, ContainerAwareTrait;
 
     const NAME = "Arty";
     const VERSION = '0.1.0';
-
-    /**
-     * The Ioc container instance
-     *
-     * @var \Gckabir\Arty\IocContainer
-     */
-    protected $app;
-    protected $configured = false;
 
     public function __construct(array $config = array())
     {
@@ -47,8 +39,10 @@ class Arty extends Application
 
     protected function setupIoC()
     {
-        $this->app = IocContainer::initialize();
-        $this->app->instance('arty', $this);
+        $container = IocContainer::initialize();
+        $container->instance('arty', $this);
+
+        $this->setContainer($container);
     }
 
     protected function setupFacades()

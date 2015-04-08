@@ -1,9 +1,9 @@
 <?php namespace Gckabir\Arty\Providers;
 
-use Gckabir\Arty\AbstractServiceProvider;
 use Gckabir\Arty\Composer;
+use Gckabir\Arty\AbstractServiceProvider as ServiceProvider;
 
-class ComposerServiceProvider extends AbstractServiceProvider
+class ComposerServiceProvider extends ServiceProvider
 {
 
     /**

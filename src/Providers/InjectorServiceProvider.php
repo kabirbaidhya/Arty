@@ -1,9 +1,9 @@
 <?php namespace Gckabir\Arty\Providers;
 
 use Gckabir\Arty\Injector;
-use Gckabir\Arty\AbstractServiceProvider;
+use Gckabir\Arty\AbstractServiceProvider as ServiceProvider;
 
-class InjectorServiceProvider extends AbstractServiceProvider
+class InjectorServiceProvider extends ServiceProvider
 {
     public function register()
     {

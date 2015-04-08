@@ -5,8 +5,11 @@ use Symfony\Component\Yaml\Yaml;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Fluent;
 
-trait ConfigureTrait
+trait ConfigurationTrait
 {
+
+    protected $configured = false;
+
     public function configure(array $config = array())
     {
         $configuration = new Configuration();
@@ -35,4 +38,3 @@ trait ConfigureTrait
         return $this;
     }
 }
-
