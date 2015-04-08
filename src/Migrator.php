@@ -1,13 +1,14 @@
 <?php namespace Gckabir\Arty;
 
+use Gckabir\Arty\Traits\MigrationTrait;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use Illuminate\Database\Migrations\Migrator as LaravelMigrator;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 class Migrator extends LaravelMigrator
 {
+    use MigrationTrait;
 
     protected $app;
 
@@ -59,21 +60,5 @@ class Migrator extends LaravelMigrator
     {
         $path = $this->getMigrationPath();
         parent::run($path, $pretend);
-    }
-
-    public function getMigrationPath()
-    {
-        $fs = $this->files;
-        $config = $this->app['config'];
-
-        $migrationPath = $config['path'].'/'.$config['migrations.directory'];
-
-        if (!$fs->isDirectory($migrationPath)) {
-            $output = new ConsoleOutput();
-            $fs->makeDirectory($migrationPath);
-            $output->writeln("<info>Migration directory created:</info> {$migrationPath}");
-        }
-
-        return $migrationPath;
     }
 }

@@ -9,10 +9,10 @@ trait MigrationTrait
      *
      * @return string
      */
-    protected function getMigrationPath()
+    public function getMigrationPath()
     {
+        $fs = $this->files;
         $config = $this->app['config'];
-        $fs = $this->app['files'];
 
         $migrationPath = $config['path'].'/'.$config['migrations.directory'];
 

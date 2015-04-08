@@ -5,11 +5,9 @@ use Gckabir\Arty\Composer;
 use Gckabir\Arty\MigrationCreator;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use Gckabir\Arty\Traits\MigrationTrait;
 
 class MakeCommand extends Command
 {
-    use MigrationTrait;
 
     protected $name = 'make:migration';
     protected $description = 'Create a new migration file';
@@ -29,7 +27,7 @@ class MakeCommand extends Command
     /**
      * Create a new migration install command instance
      * @param \Gckabir\Arty\MigrationCreator $creator
-     * @param \Gckabir\Arty\Composer $composer
+     * @param \Gckabir\Arty\Composer         $composer
      */
     public function __construct(MigrationCreator $creator, Composer $composer)
     {
@@ -77,7 +75,7 @@ class MakeCommand extends Command
      */
     protected function writeMigration($name, $table, $create)
     {
-        $path = $this->getMigrationPath();
+        $path = $this->creator->getMigrationPath();
 
         $file = pathinfo($this->creator->create($name, $path, $table, $create), PATHINFO_FILENAME);
 
