@@ -1,4 +1,4 @@
 #!/usr/bin/env php
 <?php
 
-copy(__DIR__.'/../rt', 'rt');
+copy(__DIR__.'/arty', 'rt');

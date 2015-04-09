@@ -1,7 +1,6 @@
-#!/usr/bin/env php
 <?php
 require __DIR__.'/vendor/autoload.php';
 
 use Gckabir\Arty\Arty;
 
-(new Arty())->configureFromYaml()->run();
+return new Arty();
