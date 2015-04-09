@@ -1,66 +1,23 @@
 <?php namespace Gckabir\Arty\Commands\Migrate;
 
-use Gckabir\Arty\Command;
-use Gckabir\Arty\Migrator;
+use Gckabir\Arty\Migrator as ArtyMigrator;
+use Gckabir\Arty\Traits\MigrationTrait;
+use Gckabir\Arty\Traits\ArtyCommandTrait;
+use Gckabir\Arty\Traits\ContainerAwareTrait;
+use Illuminate\Database\Console\Migrations\StatusCommand as LaravelStatusCommand;
 
-class StatusCommand extends Command
+class StatusCommand extends LaravelStatusCommand
 {
-
-    protected $name = 'migrate:status';
-    protected $description = 'Show a list of migrations up/down';
-
-    /**
-     * The migrator instance.
-     *
-     * @var \Gckabir\Arty\Migrator
-     */
-    protected $migrator;
+    use ContainerAwareTrait, ArtyCommandTrait;
+    use MigrationTrait;
 
     /**
      * Create a new migration rollback command instance.
      *
      * @param \Gckabir\Arty\Migrator $migrator
      */
-    public function __construct(Migrator $migrator)
+    public function __construct(ArtyMigrator $migrator)
     {
-        parent::__construct();
-
-        $this->migrator = $migrator;
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function fire()
-    {
-        if (! $this->migrator->repositoryExists()) {
-            return $this->error('No migrations found.');
-        }
-
-        $ran = $this->migrator->getRepository()->getRan();
-
-        $migrations = [];
-
-        foreach ($this->getAllMigrationFiles() as $migration) {
-            $migrations[] = in_array($migration, $ran) ? ['<info>Y</info>', $migration] : ['<fg=red>N</fg=red>', $migration];
-        }
-
-        if (count($migrations) > 0) {
-            $this->table(['Ran?', 'Migration'], $migrations);
-        } else {
-            $this->error('No migrations found');
-        }
-    }
-
-    /**
-     * Get all of the migration files.
-     *
-     * @return array
-     */
-    protected function getAllMigrationFiles()
-    {
-        return $this->migrator->getMigrationFiles($this->migrator->getMigrationPath());
+        parent::__construct($migrator);
     }
 }

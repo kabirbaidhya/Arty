@@ -1,49 +1,56 @@
 <?php namespace Gckabir\Arty\Commands\Migrate;
 
-use Gckabir\Arty\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Database\Migrations\MigrationRepositoryInterface;
+use PDOException;
+use Gckabir\Arty\Traits\ArtyCommandTrait;
+use Gckabir\Arty\Traits\ContainerAwareTrait;
+use Gckabir\Arty\Traits\MigrationTrait;
+use Illuminate\Database\Console\Migrations\InstallCommand as LaravelInstallCommand;
 
-class InstallCommand extends Command
+class InstallCommand extends LaravelInstallCommand
 {
-    protected $name = 'migrate:install';
-    protected $description = 'Create the migration repository';
+    use ContainerAwareTrait, ArtyCommandTrait;
+    use MigrationTrait;
 
     /**
-     * The repository instance.
+     * Execute the console command.
      *
-     * @var \Illuminate\Database\Migrations\MigrationRepositoryInterface
-     */
-    protected $repository;
-
-    /**
-     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface $repository
      * @return void
      */
-    public function __construct(MigrationRepositoryInterface $repository)
+    public function fire()
     {
-        parent::__construct();
-        $this->repository = $repository;
+        try {
+            parent::fire();
+        } catch (PDOException $e) {
+            if (@$e->errorInfo[1] != 1050) {
+                throw $e;
+            }
+
+            $this->info('Migration table already exists');
+        }
+
+        $this->checkMigrationDirectory();
     }
 
-    protected function fire()
+    protected function checkMigrationDirectory()
     {
-        $this->repository->setSource($this->input->getOption('database'));
+        $fs = $this->app['files'];
+        $migrationPath = $this->getMigrationPath();
 
-        $this->repository->createRepository();
+        if (!$fs->isDirectory($migrationPath)) {
+            $this->line('');
+            $this->info('Migration directory does not exist');
+            $confirmed = $this->confirm('Do you wish to create it? [y/n]');
 
-        $this->info("Migration table created successfully.");
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return array(
-            array('database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'),
-        );
+            if ($confirmed) {
+                if ($fs->makeDirectory($migrationPath)) {
+                    $this->line('<info>Directory Created:</info> '.$migrationPath);
+                } else {
+                    $this->error('Error creating directory; please create it manually');
+                }
+            } else {
+                $this->info('Please create a it manually');
+            }
+        }
+        $this->line('');
     }
 }

@@ -5,7 +5,3 @@ require __DIR__.'/vendor/autoload.php';
 use Gckabir\Arty\Arty;
 
 (new Arty())->configureFromYaml()->run();
-
-
-
-

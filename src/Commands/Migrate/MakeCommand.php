@@ -3,11 +3,13 @@
 use Gckabir\Arty\Command;
 use Gckabir\Arty\Composer;
 use Gckabir\Arty\MigrationCreator;
+use Gckabir\Arty\Traits\MigrationTrait;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 class MakeCommand extends Command
 {
+    use MigrationTrait;
 
     protected $name = 'make:migration';
     protected $description = 'Create a new migration file';
@@ -75,7 +77,8 @@ class MakeCommand extends Command
      */
     protected function writeMigration($name, $table, $create)
     {
-        $path = $this->creator->getMigrationPath();
+        // Retrieve migration path and throw exception if it doesn't exist
+        $path = $this->getMigrationPath(true);
 
         $file = pathinfo($this->creator->create($name, $path, $table, $create), PATHINFO_FILENAME);
 

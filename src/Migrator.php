@@ -1,7 +1,7 @@
 <?php namespace Gckabir\Arty;
 
-use Gckabir\Arty\Traits\MigrationTrait;
 use Gckabir\Arty\Traits\ContainerAwareTrait;
+use Gckabir\Arty\Traits\MigrationTrait;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Container\Container as ContainerContract;
 
 class Migrator extends LaravelMigrator
 {
-    use MigrationTrait, ContainerAwareTrait;
+    use ContainerAwareTrait, MigrationTrait;
 
     /**
      * Create a new migrator instance.
@@ -42,22 +42,11 @@ class Migrator extends LaravelMigrator
             $migration->migration,
         ];
 
-        $path = $this->getMigrationPath();
+        // Retrieve migration path and throw exception if it doesn't exist
+        $path = $this->getMigrationPath(true);
+
         $this->requireFiles($path, $migrations);
 
         parent::runDown($migration, $pretend);
-    }
-
-    /**
-     * Run the outstanding migrations at a given path.
-     *
-     * @param  string $path
-     * @param  bool   $pretend
-     * @return void
-     */
-    public function run($pretend = false)
-    {
-        $path = $this->getMigrationPath();
-        parent::run($path, $pretend);
     }
 }

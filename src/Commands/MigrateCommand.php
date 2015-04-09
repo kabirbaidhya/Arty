@@ -1,15 +1,16 @@
 <?php namespace Gckabir\Arty\Commands;
 
-use Gckabir\Arty\Migrator as ArtyMigrator;
-use Gckabir\Arty\Traits\ConfirmableTrait;
-use Illuminate\Database\Console\Migrations\MigrateCommand as LaravelMigrateCommand;
-use Gckabir\Arty\Traits\ContainerAwareTrait;
+use Gckabir\Arty\Traits\MigrationTrait;
 use Gckabir\Arty\Traits\ArtyCommandTrait;
+use Gckabir\Arty\Traits\ConfirmableTrait;
+use Gckabir\Arty\Traits\ContainerAwareTrait;
+use Gckabir\Arty\Migrator as ArtyMigrator;
+use Illuminate\Database\Console\Migrations\MigrateCommand as LaravelMigrateCommand;
 
 class MigrateCommand extends LaravelMigrateCommand
 {
     use ContainerAwareTrait, ArtyCommandTrait;
-    use ConfirmableTrait;
+    use ConfirmableTrait, MigrationTrait;
 
     /**
      * Create a new migration command instance.
@@ -39,7 +40,18 @@ class MigrateCommand extends LaravelMigrateCommand
         // a database for real, which is helpful for double checking migrations.
         $pretend = $this->input->getOption('pretend');
 
-        $this->migrator->run($pretend);
+        // Next, we will check to see if a path option has been defined. If it has
+        // we will use the path relative to the root of this installation folder
+        // so that migrations may be run for any path within the applications.
+        if (! is_null($path = $this->input->getOption('path'))) {
+            $path = $this->app['config']['path'].'/'.$path;
+        } else {
+
+            // Retrieve migration path and throw exception if it doesn't exist
+            $path = $this->getMigrationPath(true);
+        }
+
+        $this->migrator->run($path, $pretend);
 
         // Once the migrator has run we will grab the note output and send it out to
         // the console screen, since the migrator itself functions without having

@@ -69,10 +69,9 @@ class Arty extends Application
     public function add(SymfonyCommand $command)
     {
         // Do it only for Arty's commands
-        if (method_exists($command, 'setContainer')) {
-            $command->setContainer($this->app);
-            $this->app->instance($command->getKey(), $command);
-        }
+
+        $command->setContainer($this->app);
+        $this->app->instance($command->getKey(), $command);
 
         return parent::add($command);
     }

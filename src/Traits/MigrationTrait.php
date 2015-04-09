@@ -1,6 +1,6 @@
 <?php namespace Gckabir\Arty\Traits;
 
-use Symfony\Component\Console\Output\ConsoleOutput;
+use RuntimeException;
 
 trait MigrationTrait
 {
@@ -9,17 +9,15 @@ trait MigrationTrait
      *
      * @return string
      */
-    public function getMigrationPath()
+    public function getMigrationPath($check = false)
     {
-        $fs = $this->files;
         $config = $this->app['config'];
+        $fs = $this->app['files'];
 
         $migrationPath = $config['path'].'/'.$config['migrations.directory'];
 
-        if (!$fs->isDirectory($migrationPath)) {
-            $output = new ConsoleOutput();
-            $fs->makeDirectory($migrationPath);
-            $output->writeln("<info>Migration directory created:</info> {$migrationPath}");
+        if ($check && !$fs->isDirectory($migrationPath)) {
+            throw new RuntimeException("Migration directory doesn't exist: ".$migrationPath);
         }
 
         return $migrationPath;
