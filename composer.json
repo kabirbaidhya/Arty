@@ -32,7 +32,7 @@
         }
     },
     "bin": [
-        "rt"
+        ["bin/artygen", "rt"]
     ],
     "config": {
         "bin-dir": "bin"
