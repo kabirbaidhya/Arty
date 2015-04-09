@@ -1,6 +1,10 @@
 {
-    "name": "gckabir/artylite",
+    "name": "gckabir/arty",
     "description": "A light weight version of Laravel's commandline tool just for database migrations.",
+    "keywords": [
+        "php", "migration", "database", "laravel", "artisan",
+        "arty", "mini", "lightweight"
+    ],
     "authors": [
         {
             "name": "Kabir",
@@ -8,7 +12,6 @@
         }
     ],
     "license": "MIT",
-    
     "require": {
         "php": ">=5.4.0",
         "symfony/console": "~2.6",
