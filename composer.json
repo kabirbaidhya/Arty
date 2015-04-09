@@ -1,9 +1,9 @@
 {
     "name": "gckabir/arty",
-    "description": "A light weight version of Laravel's commandline tool just for database migrations.",
+    "description": "A light weight version of Laravel's artisan just for database migrations in PHP projects outside laravel.",
     "keywords": [
-        "php", "migration", "database", "laravel", "artisan",
-        "arty", "mini", "lightweight"
+        "php", "migrations", "database", "lightweight", "artisan", "laravel", 
+        "arty"
     ],
     "authors": [
         {
