@@ -30,10 +30,14 @@
     },
     "scripts": {
         "post-install-cmd": [
-             "composer dump-autoload --optimize"
+            "composer dump-autoload --optimize"
         ],
         "post-update-cmd": [
-             "composer dump-autoload --optimize"
+            "composer dump-autoload --optimize"
+        ],
+        "post-package-install": [
+            "Gckabir\\Arty\\ComposerHook::postPackageInstall"
         ]
+
     }
 }
