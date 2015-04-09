@@ -31,6 +31,7 @@
             "Gckabir\\Arty\\": "src/"
         }
     },
+    "bin": "arty",
     "scripts": {
         "post-install-cmd": [
             "composer dump-autoload --optimize"

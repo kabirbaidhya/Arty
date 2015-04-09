@@ -8,6 +8,8 @@ class ComposerHook
 
     public static function postPackageInstall(PackageEvent $event)
     {
+        ob_flush();
+        flush();
         $package = $event->getOperation()->getPackage();
         // do stuff
 
