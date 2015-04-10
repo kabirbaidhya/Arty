@@ -1,7 +1,20 @@
 <?php namespace Gckabir\Arty;
 
+use RuntimeException;
+
 class Configuration
 {
+    protected $config;
+
+    public function __construct(array $config)
+    {
+        if (empty($config)) {
+            throw new RuntimeException("Invalid configuration");
+        }
+
+        $this->config = $config;
+    }
+
     protected function getDefaultConfig()
     {
         $default = require __DIR__.'/Misc/default.config.php';
@@ -12,13 +25,12 @@ class Configuration
         return array_dot($default);
     }
 
-    public function all(array $overridingConfig = array())
+    public function all()
     {
-        $overridingConfig = array_dot($overridingConfig);
-
         $defaultConfig = $this->getDefaultConfig();
+        $userConfig = array_dot($this->config);
 
-        $config = ($overridingConfig + $defaultConfig);
+        $config = ($userConfig + $defaultConfig);
 
         return array_undot($config);
     }

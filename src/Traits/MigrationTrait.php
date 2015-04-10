@@ -14,7 +14,7 @@ trait MigrationTrait
         $config = $this->app['config'];
         $fs = $this->app['files'];
 
-        $migrationPath = $config['path'].'/'.$config['migrations.directory'];
+        $migrationPath = getcwd().'/'.$config['migrations.directory'];
 
         if ($check && !$fs->isDirectory($migrationPath)) {
             throw new RuntimeException("Migration directory doesn't exist: ".$migrationPath);

@@ -1,5 +1,9 @@
 #!/usr/bin/env php
 <?php
+
+use Gckabir\Arty\Arty;
+use Gckabir\Arty\YamlConfiguration;
+
 // Require Composer's autoloader
 foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php'] as $file) {
     if (file_exists($file)) {
@@ -8,6 +12,7 @@ foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', 
     }
 }
 
-$app = new Gckabir\Arty\Arty();
+// Run arty from YamlConfiguration file
+$app = new Arty(new YamlConfiguration);
 
-$app->configureFromYaml()->run();
+$app->run();

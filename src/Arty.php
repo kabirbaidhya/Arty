@@ -1,29 +1,55 @@
 <?php namespace Gckabir\Arty;
 
-use RuntimeException;
+use Illuminate\Support\Fluent;
 use Illuminate\Support\Facades\Facade;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
-use Gckabir\Arty\Traits\ConfigurationTrait;
 use Gckabir\Arty\Traits\ContainerAwareTrait;
 
 class Arty extends Application
 {
-    use ConfigurationTrait, ContainerAwareTrait;
+    use ContainerAwareTrait;
 
     const NAME = "Arty";
     const VERSION = '0.1.0';
 
-    public function __construct(array $config = array())
+    protected $config;
+
+    public function __construct(Configuration $config)
     {
         parent::__construct(static::NAME, static::VERSION);
 
         $this->setupIoC();
-        $this->setupFacades();
+        $this->config = $config;
+    }
 
-        if (!empty($config)) {
-            $this->configure($config);
-        }
+    public function run()
+    {
+        // After configuration has been loaded other things can boot up
+        $this->configure()->bootServices();
+
+        parent::run();
+    }
+
+    public function add(SymfonyCommand $command)
+    {
+        $command->setContainer($this->app);
+        $this->app->instance($command->getKey(), $command);
+
+        return parent::add($command);
+    }
+
+    protected function getDefaultCommands()
+    {
+        return [];
+    }
+
+    protected function configure()
+    {
+        $values = array_dot_once($this->config->all());
+        $this->app->instance('config', new Fluent($values));
+
+        return $this;
     }
 
     protected function getServiceProviders()
@@ -42,12 +68,9 @@ class Arty extends Application
     {
         $container = IocContainer::initialize();
         $container->instance('arty', $this);
-
         $this->setContainer($container);
-    }
 
-    protected function setupFacades()
-    {
+        // Setup facades
         Facade::setFacadeApplication($this->app);
     }
 
@@ -59,28 +82,5 @@ class Arty extends Application
             $serviceProvider = __NAMESPACE__.'\\Providers\\'.$provider;
             (new $serviceProvider($this->app))->register();
         }
-    }
-
-    protected function getDefaultCommands()
-    {
-        return [];
-    }
-
-    public function add(SymfonyCommand $command)
-    {
-        // Do it only for Arty's commands
-
-        $command->setContainer($this->app);
-        $this->app->instance($command->getKey(), $command);
-
-        return parent::add($command);
-    }
-
-    public function run()
-    {
-        if (!$this->configured) {
-            throw new RuntimeException("Arty has not been configured yet.");
-        }
-        parent::run();
     }
 }
