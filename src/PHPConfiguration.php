@@ -1,9 +1,8 @@
 <?php namespace Gckabir\Arty;
 
 use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Yaml\Yaml;
 
-class YamlConfiguration extends Configuration
+class PHPConfiguration extends Configuration
 {
     protected $filename;
 
@@ -18,9 +17,7 @@ class YamlConfiguration extends Configuration
     {
         $fs = new Filesystem();
 
-        $contents = $fs->get($this->filename);
-
-        $this->config = Yaml::parse($contents);
+        $this->config = $fs->getRequire($this->filename);
 
         return parent::all();
     }

@@ -1,6 +1,5 @@
 <?php namespace Gckabir\Arty;
 
-use RuntimeException;
 
 class Configuration
 {
@@ -8,10 +7,6 @@ class Configuration
 
     public function __construct(array $config)
     {
-        if (empty($config)) {
-            throw new RuntimeException("Invalid configuration");
-        }
-
         $this->config = $config;
     }
 
