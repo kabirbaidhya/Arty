@@ -32,10 +32,10 @@
         }
     },
     "bin": [
-        "bin/artygen", "bin/arty"
+        "bin/rt"
     ],
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "./"
     },
     "scripts": {
         "post-install-cmd": [

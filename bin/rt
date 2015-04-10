@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+// Require Composer's autoloader
+foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php'] as $file) {
+    if (file_exists($file)) {
+        require $file;
+        break;
+    }
+}
+
+$app = new Gckabir\Arty\Arty();
+
+$app->configureFromYaml()->run();
