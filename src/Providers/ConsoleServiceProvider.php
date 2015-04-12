@@ -14,7 +14,7 @@ class ConsoleServiceProvider extends ServiceProvider
         $this->registerCommands();
     }
 
-    protected function provideCommands()
+    protected function commands()
     {
         return [
             'HelpCommand',

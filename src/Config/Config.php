@@ -1,7 +1,6 @@
-<?php namespace Gckabir\Arty;
+<?php namespace Gckabir\Arty\Config;
 
-
-class Configuration
+class Config
 {
     protected $config;
 
@@ -12,7 +11,7 @@ class Configuration
 
     protected function getDefaultConfig()
     {
-        $default = require __DIR__.'/Misc/default.config.php';
+        $default = require __DIR__.'/../Misc/default.config.php';
 
         $script = $_SERVER['SCRIPT_FILENAME'];
         $default['path']   = dirname(realpath($script));

@@ -3,5 +3,6 @@ composer.phar
 composer.lock
 vendor/
 database.sqlite
+config
 migrations
 .idea

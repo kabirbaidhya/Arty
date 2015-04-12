@@ -1,38 +1,45 @@
 <?php namespace Gckabir\Arty;
 
-use Illuminate\Support\Facades\Facade;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Gckabir\Arty\Traits\ContainerAwareTrait;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Gckabir\Arty\Traits\ConfigurationTrait;
+use Gckabir\Arty\Traits\ConfigurableTrait;
 use Exception;
 
 class Arty extends Application
 {
-    use ContainerAwareTrait, ConfigurationTrait;
+    use ContainerAwareTrait, ConfigurableTrait;
 
     const NAME = "Arty";
     const VERSION = '0.1.0';
 
-    protected $config;
-
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         parent::__construct(static::NAME, static::VERSION);
 
-        $this->setupIoC();
+        // Initialize the container with application instance
+        $container = IocContainer::initialize(['arty'  => $this]);
+
+        // make it accessible throughout the application class
+        $this->setContainer($container);
     }
 
     public function run()
     {
         try {
-            $this->loadConfiguration();
 
-            // After configuration has been loaded other things can boot up
-            $this->bootServices();
+            // Load all the services
+            $serviceLoader = new ServiceLoader($this->app);
+            $serviceLoader->boot();
+
             parent::run();
         } catch (Exception $e) {
+
+            // Catch all exceptions and show render it nicely
             $output = (new ConsoleOutput())->getErrorOutput();
             $this->renderException($e, $output);
         }
@@ -40,7 +47,10 @@ class Arty extends Application
 
     public function add(SymfonyCommand $command)
     {
+        // make the container accessible to the commands
         $command->setContainer($this->app);
+
+        // Bind the command into the container
         $this->app->instance($command->getKey(), $command);
 
         return parent::add($command);
@@ -49,37 +59,5 @@ class Arty extends Application
     protected function getDefaultCommands()
     {
         return [];
-    }
-
-    protected function getServiceProviders()
-    {
-        return [
-            'InjectorServiceProvider',
-            'FilesystemServiceProvider',
-            'ComposerServiceProvider',
-            'DatabaseServiceProvider',
-            'ConsoleServiceProvider',
-            'MigrationServiceProvider',
-        ];
-    }
-
-    protected function setupIoC()
-    {
-        $container = IocContainer::initialize();
-        $container->instance('arty', $this);
-        $this->setContainer($container);
-
-        // Setup facades
-        Facade::setFacadeApplication($this->app);
-    }
-
-    protected function bootServices()
-    {
-        $providers = $this->getServiceProviders();
-
-        foreach ($providers as $provider) {
-            $serviceProvider = __NAMESPACE__.'\\Providers\\'.$provider;
-            (new $serviceProvider($this->app))->register();
-        }
     }
 }

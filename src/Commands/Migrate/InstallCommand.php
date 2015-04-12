@@ -51,6 +51,5 @@ class InstallCommand extends LaravelInstallCommand
                 $this->info('Please create a it manually');
             }
         }
-        $this->line('');
     }
 }

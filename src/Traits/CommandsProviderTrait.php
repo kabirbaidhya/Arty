@@ -2,7 +2,7 @@
 
 trait CommandsProviderTrait
 {
-    protected function provideCommands()
+    protected function commands()
     {
         return [];
     }
@@ -15,7 +15,7 @@ trait CommandsProviderTrait
     protected function registerCommands()
     {
         $application = $this->app['arty'];
-        foreach ($this->provideCommands() as $command) {
+        foreach ($this->commands() as $command) {
             $commandInstance = $this->{'get'.$command}();
             $application->add($commandInstance);
         }

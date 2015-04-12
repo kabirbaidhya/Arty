@@ -4,12 +4,12 @@
 use Gckabir\Arty\Arty;
 
 // Require Composer's autoloader
-foreach ([__DIR__ . '/../../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php'] as $file) {
-    if (file_exists($file)) {
+foreach ([__DIR__ . '/../../../', __DIR__ . '/../vendor/', __DIR__ . '/vendor/'] as $dir) {
+    if (file_exists($file = $dir.'autoload.php')) {
         require $file;
         break;
     }
 }
 
 // Run arty from YamlConfiguration file
-(new Arty())->configureFromYaml('a.yml')->run();
+(new Arty())->configureFromYaml()->run();
