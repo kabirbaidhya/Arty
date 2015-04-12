@@ -33,8 +33,14 @@ class ServiceLoader
     public function boot()
     {
         foreach ($this->providers() as $provider) {
-            $serviceProvider = __NAMESPACE__.'\\Providers\\'.$provider;
-            (new $serviceProvider($this->app))->register();
+            $this->getServiceProvider($provider)->register();
         }
+    }
+
+    protected function getServiceProvider($class)
+    {
+        $serviceProvider = __NAMESPACE__.'\\Providers\\'.$class;
+
+        return new $serviceProvider($this->app);
     }
 }

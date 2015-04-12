@@ -40,13 +40,11 @@ class Composer
      */
     public function dumpAutoloads($extra = '')
     {
-        system(trim($this->findComposer().' dump-autoload '.$extra), $retval);
+        $runner = $this->getCommandRunner();
 
-        // $process = $this->getProcess();
+        $runner->setCommandLine(trim($this->findComposer().' dump-autoload '.$extra));
 
-        // $process->setCommandLine(trim($this->findComposer().' dump-autoload '.$extra));
-
-        // $process->run();
+        $runner->run();
     }
 
     /**
@@ -84,5 +82,10 @@ class Composer
         $this->workingPath = realpath($path);
 
         return $this;
+    }
+
+    protected function getCommandRunner()
+    {
+        return new CommandRunner();
     }
 }

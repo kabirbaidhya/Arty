@@ -22,10 +22,8 @@ class Arty extends Application
         parent::__construct(static::NAME, static::VERSION);
 
         // Initialize the container with application instance
-        $container = IocContainer::initialize(['arty'  => $this]);
-
         // make it accessible throughout the application class
-        $this->setContainer($container);
+        $this->setContainer(new IocContainer(['arty'  => $this]));
     }
 
     public function run()

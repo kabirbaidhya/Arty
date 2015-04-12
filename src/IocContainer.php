@@ -5,21 +5,14 @@ use Illuminate\Container\Container;
 class IocContainer extends Container
 {
     /**
-     * Initializes the container and returns the instance
-     * @param  array        $bindings
-     * @return IocContainer
+     * Ioc Container Constructor
+     * @param array $bindings
      */
-    public static function initialize(array $bindings = array())
+    public function __construct(array $bindings = array())
     {
-        $container = new static();
-
         // Initialize the container with initial bindings
         foreach ($bindings as $key => $value) {
-            $container->instance($key, $value);
+            $this->instance($key, $value);
         }
-
-        static::setInstance($container);
-
-        return $container;
     }
 }
