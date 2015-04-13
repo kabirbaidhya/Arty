@@ -21,7 +21,7 @@ class InstallCommand extends LaravelInstallCommand
         try {
             parent::fire();
         } catch (PDOException $e) {
-            if (@$e->errorInfo[1] != 1050) {
+            if (!isset($e->errorInfo[1]) || $e->errorInfo[1] != 1050) {
                 throw $e;
             }
 
