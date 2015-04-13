@@ -1,22 +1,7 @@
-<?php namespace Gckabir\Arty;
+<?php namespace Gckabir\Arty\Core;
 
-use Gckabir\Arty\Traits\ContainerAwareTrait;
-use Illuminate\Contracts\Container\Container as ContainerContract;
-
-class ServiceLoader
+class ServiceLoader extends AbstractContainerAware
 {
-
-    use ContainerAwareTrait;
-
-    /**
-     * Constructor
-     * @param Illuminate\Contracts\Container\Container $container
-     */
-    public function __construct(ContainerContract $container)
-    {
-        $this->setContainer($container);
-    }
-
     protected function providers()
     {
         return [
@@ -39,7 +24,7 @@ class ServiceLoader
 
     protected function getServiceProvider($class)
     {
-        $serviceProvider = __NAMESPACE__.'\\Providers\\'.$class;
+        $serviceProvider = 'Gckabir\\Arty\\Providers\\'.$class;
 
         return new $serviceProvider($this->app);
     }

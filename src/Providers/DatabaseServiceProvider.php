@@ -2,7 +2,7 @@
 
 use Gckabir\Arty\Exceptions\ConfigurationException;
 use Illuminate\Database\Capsule\Manager as CapsuleManager;
-use Gckabir\Arty\AbstractServiceProvider as ServiceProvider;
+use Gckabir\Arty\Core\AbstractServiceProvider as ServiceProvider;
 
 class DatabaseServiceProvider extends ServiceProvider
 {

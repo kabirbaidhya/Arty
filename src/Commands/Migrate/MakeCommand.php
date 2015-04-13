@@ -1,8 +1,8 @@
 <?php namespace Gckabir\Arty\Commands\Migrate;
 
-use Gckabir\Arty\Command;
-use Gckabir\Arty\Composer;
-use Gckabir\Arty\MigrationCreator;
+use Gckabir\Arty\Core\Command;
+use Gckabir\Arty\Core\Composer;
+use Gckabir\Arty\Core\MigrationCreator;
 use Gckabir\Arty\Traits\MigrationTrait;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;

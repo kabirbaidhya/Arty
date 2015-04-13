@@ -12,6 +12,6 @@ class PHPConfig extends AbstractFileBasedConfig
 
     protected function getFileContents()
     {
-        return $this->fs->getRequire($this->filename);
+        return $this->filesystem->getRequire($this->filename);
     }
 }

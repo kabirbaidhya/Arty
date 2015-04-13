@@ -1,4 +1,4 @@
-<?php namespace Gckabir\Arty;
+<?php namespace Gckabir\Arty\Core;
 
 use Illuminate\Filesystem\Filesystem;
 use Gckabir\Arty\Traits\ContainerAwareTrait;
@@ -12,13 +12,13 @@ class MigrationCreator extends LaravelMigrationCreator
     /**
      * Create a new migration creator instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem         $fs
+     * @param  \Illuminate\Filesystem\Filesystem         $filesystem
      * @param  \Illuminate\Contracts\Container\Container $container
      * @return void
      */
-    public function __construct(Filesystem $fs, ContainerContract $container)
+    public function __construct(Filesystem $filesystem, ContainerContract $container)
     {
-        parent::__construct($fs);
+        parent::__construct($filesystem);
         $this->setContainer($container);
     }
 
@@ -29,6 +29,6 @@ class MigrationCreator extends LaravelMigrationCreator
      */
     public function getStubPath()
     {
-        return __DIR__.'/Misc/stubs';
+        return __DIR__.'/../../misc/stubs';
     }
 }

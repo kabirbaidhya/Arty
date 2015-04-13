@@ -1,4 +1,4 @@
-<?php namespace Gckabir\Arty;
+<?php namespace Gckabir\Arty\Core;
 
 use Gckabir\Arty\Traits\ContainerAwareTrait;
 use Gckabir\Arty\Traits\MigrationTrait;

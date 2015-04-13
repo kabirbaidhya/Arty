@@ -1,7 +1,7 @@
 <?php namespace Gckabir\Arty\Providers;
 
 use Illuminate\Support\Facades\Facade;
-use Gckabir\Arty\AbstractServiceProvider as ServiceProvider;
+use Gckabir\Arty\Core\AbstractServiceProvider as ServiceProvider;
 
 class FacadeServiceProvider extends ServiceProvider
 {

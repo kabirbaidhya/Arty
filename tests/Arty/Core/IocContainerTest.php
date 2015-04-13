@@ -1,6 +1,7 @@
-<?php namespace Gckabir\Arty;
+<?php namespace Gckabir\Arty\Core;
 
 use Mockery;
+use Gckabir\Arty\TestCase;
 
 class IocContainerTest extends TestCase
 {
@@ -13,7 +14,7 @@ class IocContainerTest extends TestCase
     public function testConstructorIsWorkingWithParameters()
     {
         $foo = 'Foo';
-        $bar = (object) ['stirng'    => 'hello world'];
+        $bar = (object) ['word'    => 'hello world'];
 
         $container = new IocContainer(['foo'    => $foo, 'bar'    => $bar]);
 

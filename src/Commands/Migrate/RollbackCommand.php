@@ -1,6 +1,6 @@
 <?php namespace Gckabir\Arty\Commands\Migrate;
 
-use Gckabir\Arty\Migrator as ArtyMigrator;
+use Gckabir\Arty\Core\Migrator as ArtyMigrator;
 use Gckabir\Arty\Traits\ConfirmableTrait;
 use Gckabir\Arty\Traits\ArtyCommandTrait;
 use Gckabir\Arty\Traits\ContainerAwareTrait;

@@ -33,16 +33,15 @@ class InstallCommand extends LaravelInstallCommand
 
     protected function checkMigrationDirectory()
     {
-        $fs = $this->app['files'];
+        $filesystem = $this->app['files'];
         $migrationPath = $this->getMigrationPath();
 
-        if (!$fs->isDirectory($migrationPath)) {
-            $this->line('');
+        if (!$filesystem->isDirectory($migrationPath)) {
             $this->info('Migration directory does not exist');
             $confirmed = $this->confirm('Do you wish to create it? [y/n]');
 
             if ($confirmed) {
-                if ($fs->makeDirectory($migrationPath)) {
+                if ($filesystem->makeDirectory($migrationPath)) {
                     $this->line('<info>Directory Created:</info> '.$migrationPath);
                 } else {
                     $this->error('Error creating directory; please create it manually');

@@ -1,16 +1,16 @@
 <?php namespace Gckabir\Arty\Providers;
 
-use Gckabir\Arty\Migrator;
-use Gckabir\Arty\MigrationCreator;
-use Gckabir\Arty\Commands\MigrateCommand;
+use Gckabir\Arty\Core\Migrator;
+use Gckabir\Arty\Core\MigrationCreator;
 use Gckabir\Arty\Traits\CommandsProviderTrait;
+use Gckabir\Arty\Commands\MigrateCommand;
 use Gckabir\Arty\Commands\Migrate\InstallCommand;
 use Gckabir\Arty\Commands\Migrate\MakeCommand;
 use Gckabir\Arty\Commands\Migrate\RefreshCommand;
 use Gckabir\Arty\Commands\Migrate\ResetCommand;
 use Gckabir\Arty\Commands\Migrate\RollbackCommand;
 use Gckabir\Arty\Commands\Migrate\StatusCommand;
-use Gckabir\Arty\AbstractServiceProvider as ServiceProvider;
+use Gckabir\Arty\Core\AbstractServiceProvider as ServiceProvider;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository;
 
 class MigrationServiceProvider extends ServiceProvider

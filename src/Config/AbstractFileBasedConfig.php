@@ -7,11 +7,11 @@ abstract class AbstractFileBasedConfig extends Config
 {
     protected $filename;
 
-    public function __construct($filename, Filesystem $fs)
+    public function __construct($filename, Filesystem $filesystem)
     {
         parent::__construct(array());
 
-        $this->fs = $fs;
+        $this->filesystem = $filesystem;
         $this->filename = $filename;
     }
 
@@ -30,6 +30,6 @@ abstract class AbstractFileBasedConfig extends Config
 
     protected function getFileContents()
     {
-        return $this->fs->get($this->filename);
+        return $this->filesystem->get($this->filename);
     }
 }

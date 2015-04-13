@@ -4,7 +4,7 @@ use Gckabir\Arty\Traits\MigrationTrait;
 use Gckabir\Arty\Traits\ArtyCommandTrait;
 use Gckabir\Arty\Traits\ConfirmableTrait;
 use Gckabir\Arty\Traits\ContainerAwareTrait;
-use Gckabir\Arty\Migrator as ArtyMigrator;
+use Gckabir\Arty\Core\Migrator as ArtyMigrator;
 use Illuminate\Database\Console\Migrations\MigrateCommand as LaravelMigrateCommand;
 
 class MigrateCommand extends LaravelMigrateCommand
@@ -15,7 +15,7 @@ class MigrateCommand extends LaravelMigrateCommand
     /**
      * Create a new migration command instance.
      *
-     * @param \Gckabir\Arty\Migrator $migrator
+     * @param \Gckabir\Arty\Core\Migrator $migrator
      */
     public function __construct(ArtyMigrator $migrator)
     {

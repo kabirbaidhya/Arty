@@ -1,11 +1,13 @@
 <?php namespace Gckabir\Arty;
 
+use Exception;
+use Gckabir\Arty\Core\IocContainer;
+use Gckabir\Arty\Core\ServiceLoader;
+use Gckabir\Arty\Traits\ConfigurableTrait;
+use Gckabir\Arty\Traits\ContainerAwareTrait;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
-use Gckabir\Arty\Traits\ContainerAwareTrait;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Gckabir\Arty\Traits\ConfigurableTrait;
-use Exception;
 
 class Arty extends Application
 {

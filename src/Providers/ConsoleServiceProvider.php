@@ -1,9 +1,9 @@
 <?php namespace Gckabir\Arty\Providers;
 
-use Gckabir\Arty\Traits\CommandsProviderTrait;
-use Gckabir\Arty\AbstractServiceProvider as ServiceProvider;
 use Gckabir\Arty\Commands\HelpCommand;
 use Gckabir\Arty\Commands\ListCommand;
+use Gckabir\Arty\Traits\CommandsProviderTrait;
+use Gckabir\Arty\Core\AbstractServiceProvider as ServiceProvider;
 
 class ConsoleServiceProvider extends ServiceProvider
 {

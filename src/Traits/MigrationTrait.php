@@ -12,11 +12,11 @@ trait MigrationTrait
     public function getMigrationPath($check = false)
     {
         $config = $this->app['config'];
-        $fs = $this->app['files'];
+        $filesystem = $this->app['files'];
 
         $migrationPath = getcwd().'/'.$config['migrations.directory'];
 
-        if ($check && !$fs->isDirectory($migrationPath)) {
+        if ($check && !$filesystem->isDirectory($migrationPath)) {
             throw new RuntimeException("Migration directory doesn't exist: ".$migrationPath);
         }
 

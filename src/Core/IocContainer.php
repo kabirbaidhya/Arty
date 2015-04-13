@@ -1,4 +1,4 @@
-<?php namespace Gckabir\Arty;
+<?php namespace Gckabir\Arty\Core;
 
 use Illuminate\Container\Container;
 

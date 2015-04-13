@@ -1,9 +1,9 @@
 <?php namespace Gckabir\Arty\Commands\Migrate;
 
-use Gckabir\Arty\Migrator as ArtyMigrator;
 use Gckabir\Arty\Traits\MigrationTrait;
 use Gckabir\Arty\Traits\ArtyCommandTrait;
 use Gckabir\Arty\Traits\ContainerAwareTrait;
+use Gckabir\Arty\Core\Migrator as ArtyMigrator;
 use Illuminate\Database\Console\Migrations\StatusCommand as LaravelStatusCommand;
 
 class StatusCommand extends LaravelStatusCommand

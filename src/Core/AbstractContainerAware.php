@@ -1,9 +1,9 @@
-<?php namespace Gckabir\Arty;
+<?php namespace Gckabir\Arty\Core;
 
 use Gckabir\Arty\Traits\ContainerAwareTrait;
 use Illuminate\Contracts\Container\Container as ContainerContract;
 
-abstract class AbstractServiceProvider
+abstract class AbstractContainerAware
 {
     use ContainerAwareTrait;
 
@@ -15,6 +15,4 @@ abstract class AbstractServiceProvider
     {
         $this->setContainer($container);
     }
-
-    abstract public function register();
 }

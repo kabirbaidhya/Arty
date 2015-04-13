@@ -1,6 +1,7 @@
-<?php namespace Gckabir\Arty;
+<?php namespace Gckabir\Arty\Core;
 
 use Mockery;
+use Gckabir\Arty\TestCase;
 
 class ServiceLoaderTest extends TestCase
 {
@@ -14,13 +15,13 @@ class ServiceLoaderTest extends TestCase
     {
         $container = Mockery::mock('Illuminate\Contracts\Container\Container');
 
-        $loader = $this->getMock('Gckabir\Arty\ServiceLoader', ['providers', 'getServiceProvider'], [$container]);
+        $loader = $this->getMock('Gckabir\Arty\Core\ServiceLoader', ['providers', 'getServiceProvider'], [$container]);
 
         $testProviders = ['provider1', 'provider2', 'provider3', 'provider4'];
         $noOfProviders = count($testProviders);
         $loader->expects($this->once())->method('providers')->will($this->returnValue($testProviders));
 
-        $serviceProvider = Mockery::mock('Gckabir\Arty\AbstractServiceProvider');
+        $serviceProvider = Mockery::mock('Gckabir\Arty\Core\AbstractServiceProvider');
         $serviceProvider->shouldReceive('register')->times($noOfProviders);
 
         $loader->expects($this->exactly($noOfProviders))->method('getServiceProvider')->withAnyParameters()->will($this->returnValue($serviceProvider));
