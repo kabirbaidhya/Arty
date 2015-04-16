@@ -7,7 +7,7 @@ trait ArtyCommandTrait
 {
 
     /**
-     * Returns Command key for this command
+     * Returns Command key for this command for storing in the Container
      * @return string
      */
     public function getKey()

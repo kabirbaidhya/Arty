@@ -12,8 +12,4 @@ return [
 
         ],
     ],
-
-    'eloquent'  => [
-        'boot'    => false,
-    ],
 ];

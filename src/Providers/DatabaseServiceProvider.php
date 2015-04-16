@@ -12,8 +12,13 @@ class DatabaseServiceProvider extends ServiceProvider
 
             $config = $app['config'];
 
+            // Get the default database from the configuration
             $default = $config['database.default'];
+
+            // Create an capsule instance
             $capsule = new CapsuleManager($app);
+
+            // Override the default value with the user's config value
             $config['database.default'] = $default;
 
             if (!isset($config['database.connections']) || empty($config['database.connections'])) {
@@ -29,7 +34,7 @@ class DatabaseServiceProvider extends ServiceProvider
             $capsule->setAsGlobal();
 
             // Setup the Eloquent ORM...
-            if ($config['eloquent.boot'] === true) {
+            if ($this->app->bound('eloquent.boot') && $this->app['eloquent.boot'] === true) {
                 $capsule->bootEloquent();
             }
 

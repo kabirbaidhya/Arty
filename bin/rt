@@ -1,9 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-use Gckabir\Arty\Arty;
-
-// Require Composer's autoloader
+/*
+|--------------------------------------------------------------------------
+| Require Composer's autoloader
+|--------------------------------------------------------------------------
+|
+*/
 foreach ([__DIR__ . '/../../../', __DIR__ . '/../vendor/', __DIR__ . '/vendor/'] as $dir) {
     if (file_exists($file = $dir.'autoload.php')) {
         require $file;
@@ -11,5 +14,31 @@ foreach ([__DIR__ . '/../../../', __DIR__ . '/../vendor/', __DIR__ . '/vendor/']
     }
 }
 
-// Run arty from YamlConfiguration file
-(new Arty())->configureFromYaml()->run();
+/*
+|--------------------------------------------------------------------------
+| Create the Application
+|--------------------------------------------------------------------------
+| First we need to create an application instance. 
+|
+*/
+
+$arty = new Gckabir\Arty\Application();
+
+/*
+|--------------------------------------------------------------------------
+| Boot Eloquent
+|--------------------------------------------------------------------------
+| If you need to use Laravel's Eloquent ORM just uncomment the line below
+|
+*/
+$arty->bootEloquent();
+
+/*
+|--------------------------------------------------------------------------
+| Configure the Application and Run
+|--------------------------------------------------------------------------
+| Configuration could be loaded either from a Yaml file or a PHP file
+|
+*/
+
+$arty->configureFromYaml('.arty.yml')->run();

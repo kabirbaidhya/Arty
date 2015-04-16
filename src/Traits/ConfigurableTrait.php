@@ -27,7 +27,7 @@ trait ConfigurableTrait
     }
 
     /**
-     * Config Getter
+     * Gets config
      * @return \Gckabir\Arty\Config\Config
      */
     public function getConfig()
@@ -36,7 +36,7 @@ trait ConfigurableTrait
     }
 
     /**
-     * Set config from raw config values
+     * Sets config from raw config values
      * @param  array $values
      * @return $this
      */
@@ -46,7 +46,7 @@ trait ConfigurableTrait
     }
 
     /**
-     * Set config from a php file
+     * Set config from a PHP file
      * @param  string $filename
      * @return $this
      */
@@ -56,7 +56,7 @@ trait ConfigurableTrait
     }
 
     /**
-     * Set config from a yaml file
+     * Set config from a YAML file
      * @param  string $filename
      * @return $this
      */

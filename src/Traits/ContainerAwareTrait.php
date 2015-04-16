@@ -5,19 +5,28 @@ use Illuminate\Contracts\Container\Container as ContainerContract;
 trait ContainerAwareTrait
 {
     /**
-     * The Ioc container instance
+     * The Ioc Container instance
      *
      * @var \Illuminate\Contracts\Container\Container
      */
     protected $app;
 
     /**
-     * Set the Ioc container instance
-     * @param \Illuminate\Contracts\Container\Container $container
-     * @return
+     * Sets the Container instance
+     * @param  \Illuminate\Contracts\Container\Container $container
+     * @return void
      */
     public function setContainer(ContainerContract $container)
     {
         $this->app = $container;
+    }
+
+    /**
+     * Returns the Container instance
+     * @return \Illuminate\Contracts\Container\Container
+     */
+    public function getContainer()
+    {
+        return $this->app;
     }
 }
