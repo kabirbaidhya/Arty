@@ -2,7 +2,7 @@
 
 use Symfony\Component\Yaml\Yaml;
 
-class YamlConfig extends AbstractFileBasedConfig
+class YamlConfig extends AbstractConfig
 {
 
     public function all()

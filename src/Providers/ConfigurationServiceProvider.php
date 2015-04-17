@@ -2,7 +2,7 @@
 
 use RuntimeException;
 use Illuminate\Support\Fluent;
-use Gckabir\Arty\Config\Config;
+use Gckabir\Arty\Config\AbstractConfig as Config;
 use Gckabir\Arty\Core\AbstractServiceProvider as ServiceProvider;
 
 class ConfigurationServiceProvider extends ServiceProvider

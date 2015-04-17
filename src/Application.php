@@ -1,7 +1,7 @@
 <?php namespace Gckabir\Arty;
 
 use Exception;
-use Gckabir\Arty\Core\ServiceContainer;
+use Gckabir\Arty\Core\Container;
 use Gckabir\Arty\Traits\ConfigurableTrait;
 use Gckabir\Arty\Traits\ContainerAwareTrait;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -23,7 +23,7 @@ class Application extends SymfonyApplication
         parent::__construct('Arty', static::VERSION);
 
         // Initialize the container with application instance
-        $container = new ServiceContainer([
+        $container = new Container([
             'application'  => $this,
             'input' => new ArgvInput(),
             'output' => new ConsoleOutput(),
@@ -90,15 +90,5 @@ class Application extends SymfonyApplication
     protected function getDefaultCommands()
     {
         return [];
-    }
-
-    /**
-     * Makes sure that the Eloquent will be initialized when the services boots up
-     *
-     * @return void
-     */
-    public function bootEloquent()
-    {
-        $this->app->instance('eloquent.boot', true);
     }
 }

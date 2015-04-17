@@ -1,6 +1,6 @@
 <?php namespace Gckabir\Arty\Config;
 
-class PHPConfig extends AbstractFileBasedConfig
+class PHPConfig extends AbstractConfig
 {
 
     public function all()

@@ -18,7 +18,6 @@ foreach ([__DIR__ . '/../../../', __DIR__ . '/../vendor/', __DIR__ . '/vendor/']
 |--------------------------------------------------------------------------
 | Create the Application
 |--------------------------------------------------------------------------
-| First we need to create an application instance. 
 |
 */
 
@@ -26,19 +25,11 @@ $arty = new Gckabir\Arty\Application();
 
 /*
 |--------------------------------------------------------------------------
-| Boot Eloquent
-|--------------------------------------------------------------------------
-| If you need to use Laravel's Eloquent ORM just uncomment the line below
-|
-*/
-$arty->bootEloquent();
-
-/*
-|--------------------------------------------------------------------------
 | Configure the Application and Run
 |--------------------------------------------------------------------------
-| Configuration could be loaded either from a Yaml file or a PHP file
-|
+| Auto detects the configuration file from a Yaml file(.arty.yml) or 
+| a PHP file (config/arty.php)
+| 
 */
 
-$arty->configureFromYaml('.arty.yml')->run();
+$arty->autodetectConfig()->run();

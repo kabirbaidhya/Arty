@@ -34,7 +34,7 @@ class DatabaseServiceProvider extends ServiceProvider
             $capsule->setAsGlobal();
 
             // Setup the Eloquent ORM...
-            if ($this->app->bound('eloquent.boot') && $this->app['eloquent.boot'] === true) {
+            if ($config['eloquent.boot'] === true) {
                 $capsule->bootEloquent();
             }
 

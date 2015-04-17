@@ -1,8 +1,8 @@
 <?php namespace Gckabir\Arty\Core;
 
-use Illuminate\Container\Container;
+use Illuminate\Container\Container as LaravelContainer;
 
-class ServiceContainer extends Container
+class Container extends LaravelContainer
 {
     /**
      * Container Constructor

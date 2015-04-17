@@ -1,8 +1,7 @@
 .arty.yml
 composer.phar
 composer.lock
-vendor/
-database.sqlite
+vendor
 config
 migrations
-.idea
+
