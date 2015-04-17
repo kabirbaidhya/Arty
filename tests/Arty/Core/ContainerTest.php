@@ -3,7 +3,7 @@
 use Mockery;
 use Gckabir\Arty\TestCase;
 
-class ServiceContainerTest extends TestCase
+class ContainerTest extends TestCase
 {
 
     public function tearDown()
@@ -16,7 +16,7 @@ class ServiceContainerTest extends TestCase
         $foo = 'Foo';
         $bar = (object) ['word'    => 'hello world'];
 
-        $container = new ServiceContainer(['hello'  => 'world']);
+        $container = new Container(['hello'  => 'world']);
 
         $container->registerInstances(['foo'    => $foo, 'bar'    => $bar]);
 
@@ -27,7 +27,7 @@ class ServiceContainerTest extends TestCase
 
     public function testBoot()
     {
-        $container = $this->getMock('Gckabir\Arty\Core\ServiceContainer', ['providers', 'getProviderInstance']);
+        $container = $this->getMock('Gckabir\Arty\Core\Container', ['providers', 'getProviderInstance']);
 
         $testProviders = ['provider1', 'provider2', 'provider3', 'provider4'];
         $noOfProviders = count($testProviders);

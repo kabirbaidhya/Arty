@@ -75,8 +75,6 @@ trait ConfigurableTrait
             }
         }
 
-        dump($this->getConfig());
-
         return $this;
     }
 }
